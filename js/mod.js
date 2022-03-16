@@ -1,8 +1,8 @@
 let modInfo = {
-	name: "The Epic Tree",
-	id: "mymod",
-	author: "nobody",
-	pointsName: "points",
+	name: "The Currency Tree",
+	id: "currencymod",
+	author: "EpicBoss42",
+	pointsName: "Copper Pennies",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
