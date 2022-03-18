@@ -1,14 +1,14 @@
 let modInfo = {
-	name: "The Currency Tree",
-	id: "currencymod",
+	name: "The RPG Monster Tree",
+	id: "monstertree",
 	author: "EpicBoss42",
-	pointsName: "Copper Pennies",
+	pointsName: "Copper Points",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
 	initialStartPoints: new Decimal (10), // Used for hard resets and new players
-	offlineLimit: 1,  // In hours
+	offlineLimit: 24,  // In hours
 }
 
 // Set your version in num and name
@@ -42,7 +42,10 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 	let gain = new Decimal(0)
-	if (hasUpgrade('c', 11)) gain = gain.add(1)
+	if (hasUpgrade('s', 11)) gain = gain.add(buyableEffect('s', 11))
+	if (hasUpgrade('s', 12)) gain = gain.add(buyableEffect('s', 12))
+	if (hasUpgrade('s', 13)) gain = gain.add(buyableEffect('s', 13))
+	if (hasUpgrade('si', 13)) gain = gain.mul(upgradeEffect('si', 13))
 	return gain
 }
 
