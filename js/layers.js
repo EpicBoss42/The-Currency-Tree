@@ -16,6 +16,7 @@ addLayer("s", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('si', 14)) mult = mult.mul(1.25)
+        if (hasUpgrade('c', 11)) mult = mult.mul(upgradeEffect('c', 11))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -245,15 +246,17 @@ addLayer("si", {
     type: "normal",                         // Determines the formula used for calculating prestige currency.
     exponent: 0.4,                          // "normal" prestige gain is (currency^exponent).
 
-    gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
-        return new Decimal(1)               // Factor in any bonuses multiplying gain here.
+    gainMult() {           
+        let mult = new Decimal(1)
+        if (hasUpgrade(this.layer, 22)) mult = mult.mul(1.15)
+        return mult           // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns the exponent to your gain of the prestige resource.
         return new Decimal(1)
     },
 
     layerShown() {
-        if(player.s.points > 9 || player.si.best > 0) {return true}
+        if(player.s.points >= 5 || player[this.layer].best > 0) {return true}
         return "ghost"
     },          // Returns a bool for if this layer's node should be visible in the tree.
     branches: ['s'],
@@ -273,7 +276,7 @@ addLayer("si", {
             description: "Attract more adventurers by purchasing advertising posters, increasing copper point gain based on silver points.",
             cost: new Decimal(10),
             effect() {
-                return player[this.layer].points.add(1).log(2)
+                return player[this.layer].points.add(1).log(2).add(1)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"},
         },
@@ -286,6 +289,63 @@ addLayer("si", {
             title: "Triangular Slimes",
             description: "By having your slimes take on the appearance of pyramids, they square their copper point gain",
             cost: new Decimal(125),
+        },
+        22: {
+            title: "Better Exchange Rates",
+            description: "Better exchange rates allow you to gain 15% more Silver Points",
+            cost: new Decimal(150),
+        },
+        23: {
+            title: "Elderly Slime Mentor Program",
+            description: "Your Adult Slimes boost your Baby Slime production.",
+            cost: new Decimal(250),
         }
+    },
+})
+
+addLayer("c", {
+    startData() { return {                  // startData is a function that returns default data for a layer. 
+        unlocked: false,                     // You can add more variables here to add them to your layer.
+        points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
+        total: new Decimal(0.1),
+    }},
+    branches: ['s'],
+    color: "#616161",                       // The color for this layer, which affects many elements.
+    resource: "Caves",            // The name of this layer's main prestige resource.
+    row: 1,                                 // The row this layer is on (0 is the first row).
+
+    baseResource: "copper points",                 // The name of the resource your prestige gain is based on.
+    baseAmount() { return player.points },  // A function to return the current amount of baseResource.
+
+    requires: new Decimal(100),              // The amount of the base needed to  gain 1 of the prestige currency.
+                                            // Also the amount required to unlock the layer.
+
+    type: "normal",                         // Determines the formula used for calculating prestige currency.
+    exponent: 0.4,                          // "normal" prestige gain is (currency^exponent).
+    hotkeys: [
+        {key : "c", description: "C: Reset for Caves", onPress(){if (canReset(this.layer)) doReset(this.layer)}}
+    ],
+    gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
+        return new Decimal(1)               // Factor in any bonuses multiplying gain here.
+    },
+    gainExp() {                             // Returns the exponent to your gain of the prestige resource.
+        return new Decimal(1)
+    },
+
+    layerShown() {
+        if(player.s.points >= 5 || player[this.layer].best > 0) {return true}
+        return "ghost"
+    },          // Returns a bool for if this layer's node should be visible in the tree.
+
+    upgrades: {
+        11: {
+            title: "More Living Space",
+            description: "More caves allows your slimes to have a larger area to live in, increasing slime point production",
+            cost: new Decimal(1),
+            effect() {
+                return player[this.layer].total.add(0.9).log(3).add(1)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"},
+        },
     },
 })
