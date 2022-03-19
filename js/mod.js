@@ -13,16 +13,19 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1",
+	num: "0.1.1",
 	name: "Revolt of the Slimes",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v0.1.1</h3><br>
+		-Added Silver milestones.<br>
+		-Added Gold point upgrades.<br>
+		-Added Gold points.<br>
 	<h3>v0.1</h3><br>
-		- Added Silver milestones.<br>
-		- Added Gold, Slime, Cave, and Silver Upgrades.<br>
+		- Added Slime, Cave, and Silver Upgrades.<br>
 		- Added Baby, Juvenile, Adult, Red, Blue, and Green slimes.<br>
-		- Added Copper points, slime points, gold points, and silver points.`
+		- Added Copper points, slime points, and silver points.`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
