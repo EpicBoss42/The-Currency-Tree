@@ -15,6 +15,7 @@ addLayer("s", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade('si', 14)) mult = mult.mul(1.25)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -77,10 +78,11 @@ addLayer("s", {
                 let value = new Decimal(x)
                 if (hasUpgrade('si', 11)) value = value.mul(2)
                 if (hasUpgrade('s', 21)) value = value.mul(buyableEffect('s', 21))
+                if (hasUpgrade('si', 21)) value = value.pow(2)
                 return value
             },
             display() { 
-            return `A Baby Slime to slay an adventurer and generate ` + buyableEffect(this.layer, this.id).div(getBuyableAmount(this.layer, this.id)) + ` copper point per second.<br>
+            return `A Baby Slime to slay an adventurer and generate ` + buyableEffect(this.layer, this.id).div(getBuyableAmount(this.layer, this.id)) + ` copper points per second.<br>
             You own ` + getBuyableAmount(this.layer, this.id) + ` Baby Slimes! <br>
             The next one costs ` + this.cost() + ` slime points.<br>
             Overall, your Baby Slimes are generating ` + buyableEffect(this.layer, this.id) + " copper points per second."
@@ -103,6 +105,7 @@ addLayer("s", {
                 let value = new Decimal(x)
                 value = value.mul(5)
                 if (hasUpgrade('s', 22)) value = value.mul(buyableEffect('s', 22))
+                if (hasUpgrade('si', 21)) value = value.pow(2)
                 return value
             },
             display() {
@@ -128,6 +131,7 @@ addLayer("s", {
                 let value = new Decimal(x)
                 value = value.mul(25)
                 if (hasUpgrade('s', 23)) value = value.mul(buyableEffect('s', 23))
+                if (hasUpgrade('si', 21)) value = value.pow(2)
                 return value
             },
             display() {
@@ -225,7 +229,9 @@ addLayer("si", {
         total: new Decimal(0.1),
 
     }},
-
+    hotkeys: [
+        {key: "S", description: "Shift + S: Reset for Silver Points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
     color: "#909090",                       // The color for this layer, which affects many elements.
     resource: "silver points",            // The name of this layer's main prestige resource.
     row: 1,                                 // The row this layer is on (0 is the first row).
@@ -271,5 +277,15 @@ addLayer("si", {
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"},
         },
+        14: {
+            title: "Slime Food",
+            description: "Using your money, you purchase a device that helps you gain Slime Points 25% faster",
+            cost: new Decimal(25),
+        },
+        21: {
+            title: "Triangular Slimes",
+            description: "By having your slimes take on the appearance of pyramids, they square their copper point gain",
+            cost: new Decimal(125),
+        }
     },
 })
