@@ -27,6 +27,29 @@ addLayer("s", {
         {key: "s", description: "S: Reset for Slime Points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return true},
+    doReset(x) {
+        if (x === 'si' || x === 'c') {
+            let keptUpgrades = []
+            if (hasMilestone('si', 0)) {
+                keptUpgrades.push('11')
+                keptUpgrades.push('12')
+                keptUpgrades.push('13')
+            } 
+            if (hasMilestone('si', 1)) {
+                keptUpgrades.push('21')
+                keptUpgrades.push('22')
+                keptUpgrades.push('23')
+            }
+            if (hasMilestone('si', 2)) {
+                keptUpgrades.push('31')
+                keptUpgrades.push('32')
+                keptUpgrades.push('33')
+            }
+            if (hasUpgrade('s', 41)) { keptUpgrades.push('41')}
+            layerDataReset("s")
+            player[this.layer].upgrades = keptUpgrades
+        }
+    },
     upgrades: {
         11: {
             title: "Baby Slime Unlock",
@@ -73,7 +96,7 @@ addLayer("s", {
         31: {
             title: "Baby Horde",
             description: "Teach your Baby Slimes how to attack all at once, increasing Baby Slime effectiveness based on how many Baby Slimes you own",
-            cost: new Decimal(500),
+            cost: new Decimal(5000),
             unlocked() {
                 if (hasUpgrade('si', 24) && hasUpgrade('s', 11)) {return true}
                 return false
@@ -87,7 +110,7 @@ addLayer("s", {
         32: {
             title: "Juvenile Delinquency",
             description: "Encourage your Juvenile Slimes to become more aggressive, allowing them to earn 125% more copper points per second",
-            cost: new Decimal(750),
+            cost: new Decimal(10000),
             unlocked() {
                 if (hasUpgrade('si', 24) && hasUpgrade('s', 12)) {return true}
                 return false
@@ -101,7 +124,7 @@ addLayer("s", {
         33: {
             title: "Adult Support",
             description: "Your adult slimes help your Red, Blue, and Yellow slimes, increasing their buff by 25% for each Adult Slime",
-            cost: new Decimal(1000),
+            cost: new Decimal(25000),
             unlocked() {
                 if (hasUpgrade('si', 24) && hasUpgrade('s', 13)) {return true}
                 return false
@@ -114,11 +137,24 @@ addLayer("s", {
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" }
         },
+        41: {
+            title: "Join the League of Silver",
+            description: "By purchasng a membership for the League of Silver, you can unlock milestones for Silver Points.",
+            cost: new Decimal(100000),
+            unlocked() {
+                if (hasUpgrade('s', 31) && hasUpgrade('s', 32) && hasUpgrade('s', 33)) {return true}
+                return false
+            },
+        }
     },
     buyables: {
         11: {
             title: "Baby Slime",
-            cost(x) { return new Decimal(x).add(1).pow(2).floor() },
+            cost(x) { 
+                let amount = new Decimal(x)
+                if (hasUpgrade('c', 21)) amount = amount.div(2)
+                return amount.add(1).pow(2).floor() 
+            },
             effect(x) {
                 let individualValue = new Decimal(1)
                 if (hasUpgrade('si', 11)) individualValue = individualValue.mul(upgradeEffect('si', 11))
@@ -127,6 +163,7 @@ addLayer("s", {
                 if (hasUpgrade('c', 12)) individualValue = individualValue.mul(upgradeEffect('c', 12))
                 if (hasUpgrade('c', 13)) individualValue = individualValue.mul(upgradeEffect('c', 13))
                 if (hasUpgrade('s', 31)) individualValue = individualValue.mul(upgradeEffect('s', 31))
+                if (hasUpgrade('c', 22)) individualValue = individualValue.mul(upgradeEffect('c', 21))
                 let value = individualValue.mul(x)
                 return value
             },
@@ -143,13 +180,19 @@ addLayer("s", {
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                let gain = new Decimal(1)
+                if (hasUpgrade('c', 21)) gain = gain.mul(upgradeEffect('c', 21))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(gain))
             },
             
         },
         12: {
             title: "Juvenile Slime",
-            cost(x) { return new Decimal(x).add(1).pow(2.1).mul(5).floor() },
+            cost(x) { 
+                let amount = new Decimal(x)
+                if (hasUpgrade('c', 21)) amount = amount.div(2)
+                return amount.add(1).pow(2.1).mul(5).floor() 
+            },
             effect(x) {
                 let individualValue = new Decimal(5)
                 if (hasUpgrade('s', 22)) individualValue = individualValue.mul(buyableEffect('s', 22))
@@ -157,6 +200,7 @@ addLayer("s", {
                 if (hasUpgrade('c', 12)) individualValue = individualValue.mul(upgradeEffect('c', 12))
                 if (hasUpgrade('c', 13)) individualValue = individualValue.mul(upgradeEffect('c', 13))
                 if (hasUpgrade('s', 32)) individualValue = individualValue.mul(upgradeEffect('s', 32))
+                if (hasUpgrade('c', 22)) individualValue = individualValue.mul(upgradeEffect('c', 21))
                 let value = individualValue.mul(x)
                 return value
             },
@@ -173,12 +217,18 @@ addLayer("s", {
             canAfford() { return player[this.layer].points.gte(this.cost())},
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                let gain = new Decimal(1)
+                if (hasUpgrade('c', 21)) gain = gain.mul(upgradeEffect('c', 21))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(gain))
             }
         },
         13: {
             title: "Adult Slime",
-            cost(x) { return new Decimal(x).add(1).pow(2.5).mul(10).floor() },
+            cost(x) { 
+                let amount = new Decimal(x)
+                if (hasUpgrade('c', 21)) amount = amount.div(2)
+                return amount.add(1).pow(2.5).mul(10).floor() 
+            },
             effect(x) {
                 let individualValue = new Decimal(25)
                 if (hasUpgrade('s', 23)) individualValue = individualValue.mul(buyableEffect('s', 23))
@@ -200,12 +250,18 @@ addLayer("s", {
             canAfford() {return player[this.layer].points.gte(this.cost())},
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                let gain = new Decimal(1)
+                if (hasUpgrade('c', 21)) gain = gain.mul(upgradeEffect('c', 21))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(gain))
             },
         },
         21: {
             title: "Red Slime",
-            cost(x) { return new Decimal(x).add(2).pow(3.1).mul(5).floor() },
+            cost(x) { 
+                let amount = new Decimal(x)
+                if (hasUpgrade('c', 21)) amount = amount.div(2)
+                return amount.add(2).pow(3.1).mul(5).floor() 
+            },
             effect(x) {
                 let value = new Decimal(x).add(1).pow(0.5)
                 if (hasUpgrade(this.layer, 33)) value = value.mul(upgradeEffect(this.layer, 33))
@@ -224,13 +280,19 @@ addLayer("s", {
             canAfford() {return player[this.layer].points.gte(this.cost()) && getBuyableAmount('s', 13).gte(1) },
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, '13', getBuyableAmount(this.layer, '13').sub(1))
-                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                let gain = new Decimal(1)
+                if (hasUpgrade('c', 21)) gain = gain.mul(upgradeEffect('c', 21))
+                setBuyableAmount(this.layer, '13', getBuyableAmount(this.layer, '13').sub(gain))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(gain))
             }
         },
         22: {
             title: "Blue Slime",
-            cost(x) { return new Decimal(x).add(2).pow(3.1).mul(6).floor() },
+            cost(x) { 
+                let amount = new Decimal(x)
+                if (hasUpgrade('c', 21)) amount = amount.div(2)
+                return amount.add(2).pow(3.1).mul(6).floor() 
+            },
             effect(x) {
                 let value = new Decimal(x).add(1).pow(0.4)
                 if (hasUpgrade(this.layer, 33)) value = value.mul(upgradeEffect(this.layer, 33))
@@ -249,13 +311,19 @@ addLayer("s", {
             canAfford() {return player[this.layer].points.gte(this.cost()) && getBuyableAmount('s', 13).gte(1) },
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, '13', getBuyableAmount(this.layer, '13').sub(1))
-                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                let gain = new Decimal(1)
+                if (hasUpgrade('c', 21)) gain = gain.mul(upgradeEffect('c', 21))
+                setBuyableAmount(this.layer, '13', getBuyableAmount(this.layer, '13').sub(gain))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(gain))
             }
         },
         23: {
             title: "Yellow Slime",
-            cost(x) { return new Decimal(x).add(2).pow(3.1).mul(7).floor() },
+            cost(x) { 
+                let amount = new Decimal(x)
+                if (hasUpgrade('c', 21)) amount = amount.div(2)
+                return amount.add(2).pow(3.1).mul(7).floor() 
+            },
             effect(x) {
                 let value = new Decimal(x).add(1).pow(0.25)
                 if (hasUpgrade(this.layer, 33)) value = value.mul(upgradeEffect(this.layer, 33))
@@ -274,8 +342,10 @@ addLayer("s", {
             canAfford() {return player[this.layer].points.gte(this.cost()) && getBuyableAmount('s', 13).gte(1) },
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, '13', getBuyableAmount(this.layer, '13').sub(1))
-                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                let gain = new Decimal(1)
+                if (hasUpgrade('c', 21)) gain = gain.mul(upgradeEffect('c', 21))
+                setBuyableAmount(this.layer, '13', getBuyableAmount(this.layer, '13').sub(gain))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(gain))
             }
         },
     }
@@ -318,6 +388,38 @@ addLayer("si", {
         return "ghost"
     },          // Returns a bool for if this layer's node should be visible in the tree.
     branches: ['s'],
+    milestones: {
+        0: {
+            requirementDescription: "1000 Silver Points",
+            effectDescription: "Retain the first three Slime Upgrades on Reset",
+            done() { return player[this.layer].points.gte(1000) },
+            unlocked() { return hasUpgrade('s', 41) },
+        },
+        1: {
+            requirementDescription: "2500 Silver Points",
+            effectDescription: "Retain the second three Slime Upgrades on Reset",
+            done() { return player[this.layer].points.gte(2500) },
+            unlocked() { return hasUpgrade('s', 41) },
+        },
+        2: {
+            requirementDescription: "5000 Silver Points",
+            effectDescription: "Retain the third three Slime Upgrades on Reset",
+            done() { return player[this.layer].points.gte(5000) },
+            unlocked() { return hasUpgrade('s', 41) },
+        },
+        3: {
+            requirementDescription: "10000 Silver Points",
+            effectDescription: "Unlock new Cave Upgrades",
+            done() { return player[this.layer].points.gte(10000) },
+            unlocked() { return hasUpgrade('s', 41)}
+        },
+        4: {
+            requirementDescription: "25000 Silver Points",
+            effectDescription: "Unlock Gold Points",
+            done() { return player[this.layer].points.gte(25000) },
+            unlocked() { return hasUpgrade('c', 31) && hasUpgrade('c', 32) && hasUpgrade('c', 33) }
+        }
+    },
     upgrades: {
         11: {
             title: "Baby Slime Upgrade",
@@ -395,7 +497,7 @@ addLayer("c", {
     }},
     branches: ['s'],
     color: "#616161",                       // The color for this layer, which affects many elements.
-    resource: "Caves",            // The name of this layer's main prestige resource.
+    resource: "caves",            // The name of this layer's main prestige resource.
     row: 1,                                 // The row this layer is on (0 is the first row).
 
     baseResource: "copper points",                 // The name of the resource your prestige gain is based on.
@@ -417,7 +519,7 @@ addLayer("c", {
     },
 
     layerShown() {
-        if(player.s.points >= 5 || player[this.layer].best > 0) {return true}
+        if(player.s.points >= 5 || player[this.layer].unlocked == true) {return true}
         return "ghost"
     },          // Returns a bool for if this layer's node should be visible in the tree.
 
@@ -461,6 +563,102 @@ addLayer("c", {
                 return value
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" }
+        },
+        21: {
+            title: "Monster Advertisements",
+            description: "Advertise the benefits of living in your dungeon to attract twice as many slimes!",
+            cost: new Decimal(100),
+            effect() {
+                let value = new Decimal(2)
+                return value
+            }
+        },
+        22: {
+            title: "The Young Teaching The Young",
+            description: "Baby and Juvenile Slimes teach each other effective hunting tactics, each one buffing the others by 10%",
+            cost: new Decimal(250),
+            effect() {
+                let value = new Decimal(0)
+                let base = new Decimal(0.1)
+                value = value.add(getBuyableAmount('s', 11))
+                value = value.add(getBuyableAmount('s', 12))
+                base = base.mul(value)
+                return new Decimal(1).add(base)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" }
+        },
+        31: {
+            title: "Cave of the Mechanic",
+            description: "Unlock a new 'Mechanic' layer, which can create traps to generate more copper points per second",
+            cost: new Decimal(1000),
+            unlocked() {
+                if (hasMilestone('si', 3)) {return true}
+                return false
+            }
+        },
+        32: {
+            title: "Cave of the Breeder",
+            description: "Unlock a new 'Breeder' layer, which can automate gathering Slimes",
+            cost: new Decimal(2500),
+            unlocked() {
+                if (hasMilestone('si', 3)) {return true}
+                return false
+            }
+        },
+        33: {
+            title: "Cave of the Witch",
+            description: "Unlock a new 'Witch' layer, which can cast spells to slay adventurers and generate copper points per second",
+            cost: new Decimal(10000),
+            unlocked() {
+                if (hasMilestone('si', 3)) {return true}
+                return false
+            }
+        },
+
+
+    },
+})
+
+addLayer("g", {
+    startData() { return {                  // startData is a function that returns default data for a layer. 
+        unlocked: false,                     // You can add more variables here to add them to your layer.
+        points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
+    }},
+
+    color: "#4BDC13",                       // The color for this layer, which affects many elements.
+    resource: "gold points",            // The name of this layer's main prestige resource.
+    row: 3,                                 // The row this layer is on (0 is the first row).
+
+    baseResource: "silver points",                 // The name of the resource your prestige gain is based on.
+    baseAmount() { return player.si.points },  // A function to return the current amount of baseResource.
+
+    requires: new Decimal(100),              // The amount of the base needed to  gain 1 of the prestige currency.
+                                            // Also the amount required to unlock the layer.
+
+    type: "normal",                         // Determines the formula used for calculating prestige currency.
+    exponent: 0.25,                          // "normal" prestige gain is (currency^exponent).
+
+    gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
+        return new Decimal(1)               // Factor in any bonuses multiplying gain here.
+    },
+    gainExp() {                             // Returns the exponent to your gain of the prestige resource.
+        return new Decimal(1)
+    },
+
+    layerShown() { 
+        if(hasMilestone('si', 4) || player[this.layer].unlocked == true) {return true}
+        return "ghost"
+     },          // Returns a bool for if this layer's node should be visible in the tree.
+
+    upgrades: {
+        11: {
+            title: "Placeholder Name",
+            description: "Square copper point gain",
+            cost: new Decimal(1),
+            effect() {
+                let value = new Decimal(2)
+                return value
+            }
         }
     },
 })

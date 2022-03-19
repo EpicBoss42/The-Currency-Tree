@@ -19,9 +19,10 @@ let VERSION = {
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.1</h3><br>
-		- Added Slime, Cave, and Silver Upgrades.<br>
+		- Added Silver milestones.<br>
+		- Added Gold, Slime, Cave, and Silver Upgrades.<br>
 		- Added Baby, Juvenile, Adult, Red, Blue, and Green slimes.<br>
-		- Added Copper points, slime points, and silver points.`
+		- Added Copper points, slime points, gold points, and silver points.`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -48,6 +49,7 @@ function getPointGen() {
 	if (hasUpgrade('s', 13)) gain = gain.add(buyableEffect('s', 13))
 	if (hasUpgrade('si', 13)) gain = gain.mul(upgradeEffect('si', 13))
 	if (hasUpgrade('c', 14)) gain = gain.mul(upgradeEffect('c', 14))
+	if (hasUpgrade('g', 11)) gain = gain.pow(upgradeEffect('g', 11))
 	return gain
 }
 
