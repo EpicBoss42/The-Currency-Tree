@@ -188,7 +188,7 @@ addLayer("s", {
                 return value
             },
             display() {
-                return `An Adult Slime to slay adventurers quickly, generating ` + buyableEffect(this.layer, this.id).div(getBuyableAmount(this.layer, this.id)) + ` copper points per second.<br>
+                return `An Adult Slime to slay adventurers quickly, generating ` + buyableEffect(this.layer, this.id).div(getBuyableAmount(this.layer, this.id)).round() + ` copper points per second.<br>
                 You own ` + getBuyableAmount(this.layer, this.id) + ` Adult Slimes!<br>
                 The next one costs ` + this.cost() + ` slime points.<br>
                 Overall, your Adult Slimes are generating ` + buyableEffect(this.layer, this.id).round() + " copper points per second."
