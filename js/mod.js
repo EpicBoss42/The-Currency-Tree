@@ -19,6 +19,7 @@ let VERSION = {
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.1</h3><br>
+		- Added Slime, Cave, and Silver Upgrades.<br>
 		- Added Baby, Juvenile, Adult, Red, Blue, and Green slimes.<br>
 		- Added Copper points, slime points, and silver points.`
 
@@ -46,6 +47,7 @@ function getPointGen() {
 	if (hasUpgrade('s', 12)) gain = gain.add(buyableEffect('s', 12))
 	if (hasUpgrade('s', 13)) gain = gain.add(buyableEffect('s', 13))
 	if (hasUpgrade('si', 13)) gain = gain.mul(upgradeEffect('si', 13))
+	if (hasUpgrade('c', 14)) gain = gain.mul(upgradeEffect('c', 14))
 	return gain
 }
 

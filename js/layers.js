@@ -15,7 +15,7 @@ addLayer("s", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasUpgrade('si', 14)) mult = mult.mul(1.25)
+        if (hasUpgrade('si', 14)) mult = mult.mul(upgradeEffect('si', 14))
         if (hasUpgrade('c', 11)) mult = mult.mul(upgradeEffect('c', 11))
         return mult
     },
@@ -70,23 +70,71 @@ addLayer("s", {
                 return false
             },
         },
+        31: {
+            title: "Baby Horde",
+            description: "Teach your Baby Slimes how to attack all at once, increasing Baby Slime effectiveness based on how many Baby Slimes you own",
+            cost: new Decimal(500),
+            unlocked() {
+                if (hasUpgrade('si', 24) && hasUpgrade('s', 11)) {return true}
+                return false
+            },
+            effect() {
+                let value = new Decimal(getBuyableAmount(this.layer, 11)).add(1).log(4)
+                return value
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" }
+        },
+        32: {
+            title: "Juvenile Delinquency",
+            description: "Encourage your Juvenile Slimes to become more aggressive, allowing them to earn 125% more copper points per second",
+            cost: new Decimal(750),
+            unlocked() {
+                if (hasUpgrade('si', 24) && hasUpgrade('s', 12)) {return true}
+                return false
+            },
+            effect() {
+                let value = new Decimal(2.25)
+                return value
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" }
+        },
+        33: {
+            title: "Adult Support",
+            description: "Your adult slimes help your Red, Blue, and Yellow slimes, increasing their buff by 25% for each Adult Slime",
+            cost: new Decimal(1000),
+            unlocked() {
+                if (hasUpgrade('si', 24) && hasUpgrade('s', 13)) {return true}
+                return false
+            },
+            effect() {
+                let value = new Decimal(1)
+                let value2 = new Decimal(0.25).mul(getBuyableAmount('s', 13))
+                value = value.add(value2)
+                return value
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" }
+        },
     },
     buyables: {
         11: {
             title: "Baby Slime",
             cost(x) { return new Decimal(x).add(1).pow(2).floor() },
             effect(x) {
-                let value = new Decimal(x)
-                if (hasUpgrade('si', 11)) value = value.mul(2)
-                if (hasUpgrade('s', 21)) value = value.mul(buyableEffect('s', 21))
-                if (hasUpgrade('si', 21)) value = value.pow(2)
+                let individualValue = new Decimal(1)
+                if (hasUpgrade('si', 11)) individualValue = individualValue.mul(upgradeEffect('si', 11))
+                if (hasUpgrade('s', 21)) individualValue = individualValue.mul(buyableEffect('s', 21))
+                if (hasUpgrade('si', 21)) individualValue = individualValue.pow(upgradeEffect('si', 21))
+                if (hasUpgrade('c', 12)) individualValue = individualValue.mul(upgradeEffect('c', 12))
+                if (hasUpgrade('c', 13)) individualValue = individualValue.mul(upgradeEffect('c', 13))
+                if (hasUpgrade('s', 31)) individualValue = individualValue.mul(upgradeEffect('s', 31))
+                let value = individualValue.mul(x)
                 return value
             },
             display() { 
-            return `A Baby Slime to slay an adventurer and generate ` + buyableEffect(this.layer, this.id).div(getBuyableAmount(this.layer, this.id)) + ` copper points per second.<br>
+            return `A Baby Slime to slay an adventurer and generate ` + buyableEffect(this.layer, this.id).div(getBuyableAmount(this.layer, this.id)).round() + ` copper points per second.<br>
             You own ` + getBuyableAmount(this.layer, this.id) + ` Baby Slimes! <br>
             The next one costs ` + this.cost() + ` slime points.<br>
-            Overall, your Baby Slimes are generating ` + buyableEffect(this.layer, this.id) + " copper points per second."
+            Overall, your Baby Slimes are generating ` + buyableEffect(this.layer, this.id).round() + " copper points per second."
             },
             unlocked() {
                 if (hasUpgrade('s', 11)) {return true}
@@ -103,17 +151,20 @@ addLayer("s", {
             title: "Juvenile Slime",
             cost(x) { return new Decimal(x).add(1).pow(2.1).mul(5).floor() },
             effect(x) {
-                let value = new Decimal(x)
-                value = value.mul(5)
-                if (hasUpgrade('s', 22)) value = value.mul(buyableEffect('s', 22))
-                if (hasUpgrade('si', 21)) value = value.pow(2)
+                let individualValue = new Decimal(5)
+                if (hasUpgrade('s', 22)) individualValue = individualValue.mul(buyableEffect('s', 22))
+                if (hasUpgrade('si', 21)) individualValue = individualValue.pow(upgradeEffect('si', 21))
+                if (hasUpgrade('c', 12)) individualValue = individualValue.mul(upgradeEffect('c', 12))
+                if (hasUpgrade('c', 13)) individualValue = individualValue.mul(upgradeEffect('c', 13))
+                if (hasUpgrade('s', 32)) individualValue = individualValue.mul(upgradeEffect('s', 32))
+                let value = individualValue.mul(x)
                 return value
             },
             display() {
-                return `A Juvenile Slime to slay more adventurers and generate ` + buyableEffect(this.layer, this.id).div(getBuyableAmount(this.layer, this.id)) + ` copper points per second.<br>
+                return `A Juvenile Slime to slay more adventurers and generate ` + buyableEffect(this.layer, this.id).div(getBuyableAmount(this.layer, this.id)).round() + ` copper points per second.<br>
                 You own ` + getBuyableAmount(this.layer, this.id) + ` Juvenile Slimes! <br>
                 The next one costs ` + this.cost() + ` slime points.<br>
-                Overall, your Juvenile Slimes are generating ` + buyableEffect(this.layer, this.id) + " copper points per second."                
+                Overall, your Juvenile Slimes are generating ` + buyableEffect(this.layer, this.id).round() + " copper points per second."                
             },
             unlocked() {
                 if (hasUpgrade('s', 12)) {return true}
@@ -129,17 +180,18 @@ addLayer("s", {
             title: "Adult Slime",
             cost(x) { return new Decimal(x).add(1).pow(2.5).mul(10).floor() },
             effect(x) {
-                let value = new Decimal(x)
-                value = value.mul(25)
-                if (hasUpgrade('s', 23)) value = value.mul(buyableEffect('s', 23))
-                if (hasUpgrade('si', 21)) value = value.pow(2)
+                let individualValue = new Decimal(25)
+                if (hasUpgrade('s', 23)) individualValue = individualValue.mul(buyableEffect('s', 23))
+                if (hasUpgrade('si', 21)) individualValue = individualValue.pow(upgradeEffect('si', 21))
+                if (hasUpgrade('c', 13)) individualValue = individualValue.mul(upgradeEffect('c', 13))
+                let value = individualValue.mul(x)
                 return value
             },
             display() {
                 return `An Adult Slime to slay adventurers quickly, generating ` + buyableEffect(this.layer, this.id).div(getBuyableAmount(this.layer, this.id)) + ` copper points per second.<br>
                 You own ` + getBuyableAmount(this.layer, this.id) + ` Adult Slimes!<br>
                 The next one costs ` + this.cost() + ` slime points.<br>
-                Overall, your Adult Slimes are generating ` + buyableEffect(this.layer, this.id) + " copper points per second."
+                Overall, your Adult Slimes are generating ` + buyableEffect(this.layer, this.id).round() + " copper points per second."
             },
             unlocked() {
                 if (hasUpgrade('s', 13)) {return true}
@@ -155,7 +207,9 @@ addLayer("s", {
             title: "Red Slime",
             cost(x) { return new Decimal(x).add(2).pow(3.1).mul(5).floor() },
             effect(x) {
-                return new Decimal(x).add(1).pow(0.5)
+                let value = new Decimal(x).add(1).pow(0.5)
+                if (hasUpgrade(this.layer, 33)) value = value.mul(upgradeEffect(this.layer, 33))
+                return value
             },
             display() {
                 return `A Red Slime to increase the effect of your Baby Slimes.<br>
@@ -178,7 +232,9 @@ addLayer("s", {
             title: "Blue Slime",
             cost(x) { return new Decimal(x).add(2).pow(3.1).mul(6).floor() },
             effect(x) {
-                return new Decimal(x).add(1).pow(0.4)
+                let value = new Decimal(x).add(1).pow(0.4)
+                if (hasUpgrade(this.layer, 33)) value = value.mul(upgradeEffect(this.layer, 33))
+                return value
             },
             display() {
                 return `A Blue Slime to increase the effect of your Juvenile Slimes.<br>
@@ -201,7 +257,9 @@ addLayer("s", {
             title: "Yellow Slime",
             cost(x) { return new Decimal(x).add(2).pow(3.1).mul(7).floor() },
             effect(x) {
-                return new Decimal(x).add(1).pow(0.25)
+                let value = new Decimal(x).add(1).pow(0.25)
+                if (hasUpgrade(this.layer, 33)) value = value.mul(upgradeEffect(this.layer, 33))
+                return value
             },
             display() {
                 return `A Red Slime to increase the effect of your Adult Slimes.<br>
@@ -248,7 +306,7 @@ addLayer("si", {
 
     gainMult() {           
         let mult = new Decimal(1)
-        if (hasUpgrade(this.layer, 22)) mult = mult.mul(1.15)
+        if (hasUpgrade(this.layer, 22)) mult = mult.mul(upgradeEffect(this.layer, 22))
         return mult           // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns the exponent to your gain of the prestige resource.
@@ -265,6 +323,10 @@ addLayer("si", {
             title: "Baby Slime Upgrade",
             description: "Upgrade your Baby Slimes to make them twice as effective at generating money!",
             cost: new Decimal(1),
+            effect() {
+                let value = new Decimal(2)
+                return value
+            }
         },
         12: {
             title: "Colored Slimes",
@@ -276,7 +338,7 @@ addLayer("si", {
             description: "Attract more adventurers by purchasing advertising posters, increasing copper point gain based on silver points.",
             cost: new Decimal(10),
             effect() {
-                return player[this.layer].points.add(1).log(2).add(1)
+                return player[this.layer].points.log(2).add(1)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"},
         },
@@ -284,21 +346,43 @@ addLayer("si", {
             title: "Slime Food",
             description: "Using your money, you purchase a device that helps you gain Slime Points 25% faster",
             cost: new Decimal(25),
+            effect() {
+                let value = new Decimal(1.25)
+                return value
+            }
         },
         21: {
             title: "Triangular Slimes",
             description: "By having your slimes take on the appearance of pyramids, they square their copper point gain",
             cost: new Decimal(125),
+            effect() {
+                let value = new Decimal(2)
+                return value
+            }
         },
         22: {
             title: "Better Exchange Rates",
             description: "Better exchange rates allow you to gain 15% more Silver Points",
             cost: new Decimal(150),
+            effect() {
+                let value = new Decimal(1.15)
+                return value
+            }
         },
         23: {
             title: "Elderly Slime Mentor Program",
             description: "Your Adult Slimes boost your Baby Slime production.",
             cost: new Decimal(250),
+            effect() {
+                let value = getBuyableAmount('s', 13).add(1).pow(0.5)
+                return value
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"}
+        },
+        24: {
+            title: "Slime Biology",
+            description: "Utilize your knowledge of slimes to unlock a third row of Slime upgrades",
+            cost: new Decimal(500),
         }
     },
 })
@@ -347,5 +431,36 @@ addLayer("c", {
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"},
         },
+        12: {
+            title: "Small Dropshafts",
+            description: "Add small holes in the ceiling that Baby and Juvenile slimes can wait in to drop on adventurers, increasing copper point gain by 45%.",
+            cost: new Decimal(5),
+            effect() {
+                let value = new Decimal(1.45)
+                return value
+            }
+        },
+        13: {
+            title: "Motivated Slimes",
+            description: "Your current slime points boost your slimes' production speed",
+            cost: new Decimal(10),
+            effect() {
+                let value = new Decimal(player.s.points)
+                value = value.div(10).add(1).pow(0.2)
+                return value
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" }
+        },
+        14: {
+            title: "Dirt Road",
+            description: "Use some copper points to maintain a dirt path to your dungeon, generating more copper points per second",
+            cost: new Decimal(25),
+            effect() {
+                let value = player.points
+                value = value.div(100).add(1).pow(0.1)
+                return value
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" }
+        }
     },
 })
