@@ -22,13 +22,17 @@ addLayer("s", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
+    passiveGeneration() {
+        if (hasMilestone('m', 2)) { return new Decimal(0.1) }
+        return new Decimal(0)
+    },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "s", description: "S: Reset for Slime Points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return true},
     doReset(x) {
-        if (x === 'si' || x === 'c') {
+        if (x === 'si' || x === 'c' || x === 'm') {
             let keptUpgrades = []
             if (hasMilestone('si', 0)) {
                 keptUpgrades.push('11')
@@ -384,10 +388,28 @@ addLayer("si", {
     },
 
     layerShown() {
-        if(player.s.points >= 5 || player[this.layer].best > 0) {return true}
+        if(player.s.points >= 5 || player[this.layer].unlocked) {return true}
         return "ghost"
     },          // Returns a bool for if this layer's node should be visible in the tree.
     branches: ['s'],
+    doReset(x) {
+        if (x === 'm') {
+            let keptUpgrades = []
+            let keptMilestones = []
+            if (hasMilestone('m', 0)) {
+                keptMilestones.push('0')
+                keptMilestones.push('1')
+                keptUpgrades.push('12')
+            }
+            if (hasMilestone('m', 1)) {
+                keptMilestones.push('2')
+                keptMilestones.push('3')
+            }
+            layerDataReset("si")
+            player[this.layer].upgrades = keptUpgrades
+            player[this.layer].milestones = keptMilestones
+        }
+    },
     milestones: {
         0: {
             requirementDescription: "1000 Silver Points",
@@ -519,7 +541,7 @@ addLayer("c", {
     },
 
     layerShown() {
-        if(player.s.points >= 5 || player[this.layer].unlocked == true) {return true}
+        if(player.s.points >= 5 || player[this.layer].unlocked) {return true}
         return "ghost"
     },          // Returns a bool for if this layer's node should be visible in the tree.
 
@@ -637,7 +659,7 @@ addLayer("g", {
 
     type: "normal",                         // Determines the formula used for calculating prestige currency.
     exponent: 0.25,                          // "normal" prestige gain is (currency^exponent).
-
+    branches: ['c', 'si'],
     gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
         return new Decimal(1)               // Factor in any bonuses multiplying gain here.
     },
@@ -660,5 +682,86 @@ addLayer("g", {
                 return value
             }
         }
+    },
+})
+
+addLayer("m", {
+    startData() { return { 
+        unlocked: false,
+        points: new Decimal(0),
+    }},
+
+    color: "#4BDC13",
+    resource: "Mechanics",
+    row: 3,
+    branches: ['c', 'si'],
+
+    baseResource: "silver points",
+    baseAmount() { return player.si.points },
+
+    requires: new Decimal(50),
+
+    type: "static",
+    exponent: 0.5,
+
+    gainMult() {
+        return new Decimal(1)
+    },
+    gainExp() {
+        return new Decimal(1)
+    },
+
+    layerShown() {
+        if (hasUpgrade('c', 31) || player[this.layer].unlocked) {return true}
+        return "ghost"
+    },
+    milestones: {
+        0: {
+            requirementDescription: "1 Total Mechanic",
+            effectDescription: "Keep the first two Silver milestones on resets",
+            done() { return player[this.layer].total.gte(1) },
+        },
+        1: {
+            requirementDescription: "2 Total Mechanics",
+            effectDescription: "Keep the first four Silver milestones on resets",
+            done() { return player[this.layer].total.gte(2) },
+        },
+        2: {
+            requirementDescription: "5 Total Mechanics",
+            effectDescription: "Gain 10% of your Slime Point gain on reset each second",
+            done() { return player[this.layer].total.gte(5) },
+        }
+    },
+    buyables: {
+        11: {
+            title: "Generic Spikes",
+            cost(x) {
+                let value = new Decimal(x)
+                value = value.pow(3)
+                return value
+            },
+            effect(x) {
+                let value = new Decimal(x)
+                value = value.log(5).add(1)
+                return value
+            },
+            display() {
+                return "Install spikes in your dungeon to slay unwary adventurers, increasing copper point gain by " + buyableEffect(this.layer, this.id) + "x." 
+            },
+            canAfford() {
+                let cost = new Decimal(this.cost())
+                return player[this.layer].points.gte(cost)
+            },
+            buy() {
+                let cost = new Decimal(this.cost())
+                let gain = new Decimal(1)
+                player[this.layer].points = player[this.layer].points.sub(cost)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(gain))
+            }
+
+        }
+    },
+    upgrades: {
+        
     },
 })

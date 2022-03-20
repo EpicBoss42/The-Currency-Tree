@@ -13,11 +13,14 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1.1",
+	num: "0.1.2",
 	name: "Revolt of the Slimes",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v0.1.2</h3><br>
+		-Added Mechanics.<br>
+		-Added Mechanic milestones and buyable.<br>
 	<h3>v0.1.1</h3><br>
 		-Added Silver milestones.<br>
 		-Added Gold point upgrades.<br>
@@ -53,6 +56,7 @@ function getPointGen() {
 	if (hasUpgrade('si', 13)) gain = gain.mul(upgradeEffect('si', 13))
 	if (hasUpgrade('c', 14)) gain = gain.mul(upgradeEffect('c', 14))
 	if (hasUpgrade('g', 11)) gain = gain.pow(upgradeEffect('g', 11))
+	if (player.m.unlocked) gain = gain.mul(buyableEffect('m', 11))
 	return gain
 }
 
