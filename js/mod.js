@@ -58,7 +58,7 @@ function getPointGen() {
 	if (hasUpgrade('s', 13)) gain = gain.add(buyableEffect('s', 13))
 	if (hasUpgrade('si', 13)) gain = gain.mul(upgradeEffect('si', 13))
 	if (hasUpgrade('c', 14)) gain = gain.mul(upgradeEffect('c', 14))
-	if (player.m.unlocked) gain = gain.mul(buyableEffect('m', 11))
+	if (player.m.unlocked  && getBuyableAmount('m', 11) > 0) gain = gain.mul(buyableEffect('m', 11))
     if (hasUpgrade('b', 21)) gain = gain.mul(upgradeEffect('b', 21))
     if (hasUpgrade('g', 11)) gain = gain.pow(upgradeEffect('g', 11))
     if (hasUpgrade('g', 11) && getBuyableAmount('g', 11) > 0) gain = gain.pow(buyableEffect('g', 11))
