@@ -31,6 +31,11 @@ let VERSION = {
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+    <h3>v1.1.0</h3><br>
+        -Added The Pit
+        -Added The Town
+        -Reformatted source code organization
+        -Added Taverns, Banks, Blacksmiths, and Tunnel Diggers<br><br>
     <h3>v1.0.0 - The First Ascension</h3><br>
         -Added Breeders<br>
         -Added Ascensions<br><br>
