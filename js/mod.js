@@ -97,12 +97,12 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-    "Current endgame is e1e100 copper points and 1 Ascension",
+    "Current endgame is e1e100 copper points and 1 Ascension", "Buying Ascension upgrades may or may not make endgame unachievable"
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	if (player.points.gte(new Decimal("e1e500")) && player.a.points == 1) return true
+	if (player.points.gte(new Decimal("e1e100")) && player.a.points == 1) return true
     return false
 }
 
