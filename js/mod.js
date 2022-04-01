@@ -26,7 +26,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.0.0",
+	num: "1.1.0",
 	name: "The First Ascension",
 }
 
