@@ -9,7 +9,7 @@ addLayer("c", {
     row: 2,                                 // The row this layer is on (0 is the first row).
 
     baseResource: "copper points",                 // The name of the resource your prestige gain is based on.
-    baseAmount() { return player.points },  // A function to return the current amount of baseResource.
+    baseAmount() { return player.w.copper },  // A function to return the current amount of baseResource.
 
     requires: new Decimal(100),              // The amount of the base needed to  gain 1 of the prestige currency.
                                             // Also the amount required to unlock the layer.
@@ -78,7 +78,7 @@ addLayer("c", {
             description: "Use some copper points to maintain a dirt path to your dungeon, generating more copper points per second",
             cost: new Decimal(25),
             effect() {
-                let value = player.points
+                let value = player.w.copper
                 value = value.div(100).add(1).pow(0.1)
                 return value
             },

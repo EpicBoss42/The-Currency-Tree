@@ -11,7 +11,7 @@ addLayer("s", {
     resource: "slime points",
     baseResource: "copper points",
     baseAmount() {
-        return player.points
+        return player.w.copper
     },
     type: "normal",
     exponent: 0.5,
@@ -41,7 +41,7 @@ addLayer("s", {
     ],
     layerShown(){return true},
     doReset(x) {
-        if (x !== "s" && x !== "ba" && x !== 'bs') {
+        if (x !== "s" && x !== "ba" && x !== 'bs' && x !== 'e') {
             let keptUpgrades = []
             if (hasMilestone('si', 0)) {
                 keptUpgrades.push('11')
@@ -61,6 +61,9 @@ addLayer("s", {
             if (hasUpgrade('s', 41)) { keptUpgrades.push('41')}
             layerDataReset("s")
             player[this.layer].upgrades = keptUpgrades
+        }
+        if (x === this.layer) {
+            player.w.copper = new Decimal(0)
         }
     },
     automate() {

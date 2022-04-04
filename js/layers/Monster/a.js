@@ -10,7 +10,7 @@ addLayer("a", {
     color: "#e8e8e8",                       // The color for this layer, which affects many elements.
     resource: "Ascensions",            // The name of this layer's main prestige resource.
     row: 10,                  
-    baseAmount() {return player.points},
+    baseAmount() {return player.w.copper},
     baseResource: "Copper Points",
     requires: new Decimal(1),
     exponent: new Decimal(1),
@@ -24,19 +24,19 @@ addLayer("a", {
     getResetGain() {
         let current = new Decimal(player[this.layer].points)
         if (current == 0) {
-            if(getBuyableAmount('m', 12) > 1 && getBuyableAmount('g', 11) > 1 && hasUpgrade('b', 25) && player.points > new Decimal(1e25)) return new Decimal(1)
+            if(getBuyableAmount('m', 12) > 1 && getBuyableAmount('g', 11) > 1 && hasUpgrade('b', 25) && player.w.copper > new Decimal(1e25)) return new Decimal(1)
         }
         return new Decimal(0)
     },
     canReset() {
         let current = new Decimal(player[this.layer].points)
-        if (current == 0) if(getBuyableAmount('m', 12) > 1 && getBuyableAmount('g', 11) > 1 && hasUpgrade('b', 25) && player.points > new Decimal(1e25)) return true
+        if (current == 0) if(getBuyableAmount('m', 12) > 1 && getBuyableAmount('g', 11) > 1 && hasUpgrade('b', 25) && player.w.copper > new Decimal(1e25)) return true
         return false
     },
     
     layerShown() {
         if (player[this.layer].unlocked) return true
-        if(getBuyableAmount('m', 12) > 1 && getBuyableAmount('g', 11) > 1 && hasUpgrade('b', 25) && player.points > new Decimal(1e25)) return true
+        if(getBuyableAmount('m', 12) > 1 && getBuyableAmount('g', 11) > 1 && hasUpgrade('b', 25) && player.w.copper > new Decimal(1e25)) return true
         return "ghost"
     },
     enGainBase() {

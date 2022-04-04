@@ -12,7 +12,7 @@ addLayer("ba", {
     resource: "Copper Coins",
     row: 5,
     baseResource: "Copper Points",
-    baseAmount() { return player.points },
+    baseAmount() { return player.w.copper },
     requires: new Decimal(25),
     type: "normal",
     exponent: 1,

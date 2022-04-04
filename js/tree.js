@@ -17,7 +17,7 @@ addNode("blank", {
 
 
 addLayer("tree-tab", {
-    tabFormat: [["tree", [["a"], ["s"], ["c", "si"], ["b", "m", "g"]]]],
+    tabFormat: [["tree", [["e"], ["blank"], ["w"]]]],
     previousTab: "",
     leftTab: true,
 })

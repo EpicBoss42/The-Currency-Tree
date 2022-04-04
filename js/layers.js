@@ -1,3 +1,5 @@
+addLayer("e", {})
+addLayer("w", {})
 addLayer("s", {})
 addLayer("si", {})
 addLayer("c", {})
