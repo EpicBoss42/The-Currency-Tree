@@ -25,6 +25,7 @@ addLayer("e", {
     },
     gainMult() {
         let value = new Decimal(1)
+        if (hasUpgrade(this.layer, 71)) value = value.mul(upgradeEffect(this.layer, 71))
         return value
     },
     gainExp() {
@@ -69,6 +70,8 @@ addLayer("e", {
         let value = new Decimal(1)
         value = value.mul(player[this.layer].points)
         if (hasUpgrade(this.layer, 11)) value = value.mul(upgradeEffect(this.layer, 11))
+        if (hasUpgrade(this.layer, 31)) value = value.mul(upgradeEffect(this.layer, 31))
+        if (hasUpgrade(this.layer, 51)) value = value.mul(upgradeEffect(this.layer, 51))
         return value
     },
     aGainExp() {
@@ -145,28 +148,76 @@ addLayer("e", {
     upgrades: {
         11: {
             title: "Combustion",
-            description: "Fire Essence increases Air Essence Gain",
+            description: "Fire Essence increases Air Essence gain",
             cost: new Decimal(100),
             currencyDisplayName: "Fire Essence",
             currencyInternalName: "fire",
             currencyLayer: 'e',
             effect() {
                 let value = new Decimal(player[this.layer].fire)
-                value = value.pow(0.5).log(2).div(5)
-                return value.add(1)
+                if (player[this.layer].fire > 0) {
+                    value = value.pow(0.5).log(2).div(5)
+                    return value.add(1)
+                }
             },
             effectDisplay() {
                 return format(upgradeEffect(this.layer, this.id)) + "x"
             }
-        },
+        }, 
         31: {
-
-        },
+            title: "Ocean Foam",
+            description: "Water Essence increases Air Essence gain",
+            cost: new Decimal(100),
+            currencyDisplayName: "Water Essence",
+            currencyInternalName: "water",
+            currencyLayer: 'e',
+            effect() {
+                let value = new Decimal(player[this.layer].water)
+                if (player[this.layer].water > 0) {
+                    value = value.pow(0.5).log(2).div(5)
+                    return value.add(1)
+                }
+            },
+            effectDisplay() {
+                return format(upgradeEffect(this.layer, this.id)) + "x"
+            }
+        }, 
         51: {
-
-        },
+            title: "Whistling Canyons",
+            description: "Earth Essence increases Air Essence Gain",
+            cost: new Decimal(100),
+            currencyDisplayName: "Earth Essence",
+            currencyInternalName: "earth",
+            currencyLayer: 'e',
+            effect() {
+                let value = new Decimal(player[this.layer].earth)
+                if (player[this.layer].earth > 0) {
+                    value = value.pow(0.5).log(2).div(5)
+                    return value.add(1)
+                }
+            },
+            effectDisplay() {
+                return format(upgradeEffect(this.layer, this.id)) + "x"
+            }
+        }, 
         71: {
-
-        },
-    },
+            title: "Wind Power",
+            description: "Air Essence increases Elemental Essence gain",
+            cost: new Decimal(1000),
+            currencyDisplayName: "Air Essence",
+            currencyInternalName: "air",
+            currencyLayer: 'e',
+            effect() {
+                let value = new Decimal(player[this.layer].air)
+                if (value == 0) value = 1
+                if (player[this.layer].air > 0) {
+                    value = value.pow(0.2).log(5).div(10)
+                    return value.add(1)
+                }
+            },
+            effectDisplay() {
+                return format(upgradeEffect(this.layer, this.id)) + "x"
+            }
+        }, 
+    }, 
 })

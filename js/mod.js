@@ -35,7 +35,8 @@ let VERSION = {
 let changelog = `<h1>Changelog:</h1><br>
 	<h2>v0.1.0 - The Beginning Seed</h2><br>
 		<h3>Changed from RPG Monster Tree to World Tree, so versions reset</h3><br>
-		-Added Elements and Wormhole<br><br>
+		-Added Elements and Wormhole<br>
+		-Added Element Upgrades<br><br>
     <h2>v1.1.0</h2><br>
         -Added The Pit<br>
         -Added The Town<br>
@@ -86,12 +87,12 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-    "Current endgame is e1e100 copper points and 1 Ascension", "Buying Ascension upgrades may or may not make endgame unachievable"
+    "Endgame is currently at e1e1e1000 Points", "This is probably unachievable"
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	if (player.points.gte(new Decimal("e1e100")) && player.a.points == 1) return true
+	if (player.points.gte(new Decimal("e1e10")) && player.a.points == 1) return true
     return false
 }
 
