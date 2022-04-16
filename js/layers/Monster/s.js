@@ -41,7 +41,7 @@ addLayer("s", {
     ],
     layerShown(){return true},
     doReset(x) {
-        if (x !== "s" && x !== "ba" && x !== 'bs' && x !== 'e') {
+        if (x !== "s" && x !== "ba" && x !== 'bs' && x !== 'e' && x !== 'v') {
             let keptUpgrades = []
             if (hasMilestone('si', 0)) {
                 keptUpgrades.push('11')

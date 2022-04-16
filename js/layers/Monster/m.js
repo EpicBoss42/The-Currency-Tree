@@ -34,6 +34,9 @@ addLayer("m", {
         if (x !== 'g' && x == 'b' && x !== 'm' && x !== 'ba' && x !== 'bs') {
             layerDataReset(this.layer)
         }
+        if (x === this.layer) {
+            player.w.copper = new Decimal(10)
+        }
     },
     layerShown() {
         if (hasUpgrade('c', 31) || player[this.layer].unlocked) {return true}

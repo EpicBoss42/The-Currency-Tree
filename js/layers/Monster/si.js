@@ -36,7 +36,7 @@ addLayer("si", {
     },          // Returns a bool for if this layer's node should be visible in the tree.
     branches: ['s'],
     doReset(x) {
-            if (x !== 'si' && x !== 'ba' && x !== 'bs' && x !== 'c') {
+            if (x !== 'si' && x !== 'ba' && x !== 'bs' && x !== 'c' && x !== 'v') {
                 let keptUpgrades = []
                 let keptMilestones = []
                 if (hasMilestone('m', 0)) {
@@ -53,6 +53,9 @@ addLayer("si", {
                 layerDataReset(this.layer)
                 player[this.layer].upgrades = keptUpgrades
                 player[this.layer].milestones = keptMilestones
+            }
+            if (x === this.layer) {
+                player.w.copper = new Decimal(10)
             }
     },
     milestones: {

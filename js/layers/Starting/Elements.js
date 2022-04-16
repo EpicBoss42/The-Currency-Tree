@@ -4,12 +4,17 @@ addLayer("e", {
             unlocked: false,
             points: new Decimal(0),
             fire: new Decimal(0),
+            fSec: new Decimal(0),
             water: new Decimal(0),
+            wSec: new Decimal(0),
             earth: new Decimal(0),
+            eSec: new Decimal(0),
             air: new Decimal(0),
+            aSec: new Decimal(0),
             time: new Decimal(0),
         }
     },
+    branches: ['v'],
     color: "#e8e8e8",
     resource: "Elemental Essence",
     row: 1,
@@ -21,6 +26,9 @@ addLayer("e", {
     doReset(x) {
         if (x === this.layer) {
             player.w.tpoints = new Decimal(0)
+        }
+        if (x === "v") {
+            layerDataReset(this.layer)
         }
     },
     gainMult() {
@@ -97,6 +105,10 @@ addLayer("e", {
             player.e.air = player.e.air.add(tmp.e.aBase.pow(tmp.e.aGainExp).mul(tmp.e.aGainMult).mul(diff))
             player.e.earth = player.e.earth.add(tmp.e.eBase.pow(tmp.e.eGainExp).mul(tmp.e.eGainMult).mul(diff))
             player.e.fire = player.e.fire.add(tmp.e.fBase.pow(tmp.e.fGainExp).mul(tmp.e.fGainMult).mul(diff))
+            player.e.fSec = tmp.e.fBase.pow(tmp.e.fGainExp).mul(tmp.e.fGainMult)
+            player.e.aSec = tmp.e.aBase.pow(tmp.e.aGainExp).mul(tmp.e.aGainMult)
+            player.e.eSec = tmp.e.eBase.pow(tmp.e.eGainExp).mul(tmp.e.eGainMult)
+            player.e.wSec = tmp.e.wBase.pow(tmp.e.wGainExp).mul(tmp.e.wGainMult)
         }
     },
     tabFormat: {
@@ -106,6 +118,9 @@ addLayer("e", {
                 "prestige-button",
                 ["display-text", function() {
                     return "You have " + format(player[this.layer].fire) + " Fire Essence"
+                }],
+                ["display-text", function() {
+                    return "(" + format(player.e.fSec) + "/sec)"
                 }],
                 "blank",
                 ["upgrades", ['1', '2']]
@@ -118,6 +133,9 @@ addLayer("e", {
                 ["display-text", function() {
                     return "You have " + format(player[this.layer].water) + " Water Essence"
                 }],
+                ["display-text", function() {
+                    return "(" + format(player.e.wSec) + "/sec)"
+                }],
                 "blank",
                 ["upgrades", ['3', '4']]
             ]
@@ -129,6 +147,9 @@ addLayer("e", {
                 ["display-text", function() {
                     return "You have " + format(player[this.layer].earth) + " Earth Essence"
                 }],
+                ["display-text", function() {
+                    return "(" + format(player.e.eSec) + "/sec)"
+                }],
                 "blank",
                 ["upgrades", ['5', '6']]
             ]
@@ -139,6 +160,9 @@ addLayer("e", {
                 "prestige-button",
                 ["display-text", function() {
                     return "You have " + format(player[this.layer].air) + " Air Essence"
+                }],
+                ["display-text", function() {
+                    return "(" + format(player.e.aSec) + "/sec)"
                 }],
                 "blank",
                 ["upgrades", ['7', '8']]
@@ -164,6 +188,24 @@ addLayer("e", {
                 return format(upgradeEffect(this.layer, this.id)) + "x"
             }
         }, 
+        12: {
+            title: "Incineration",
+            description: "Fire Essence increases Point gain",
+            cost: new Decimal(1000),
+            currencyDisplayName: "Fire Essence",
+            currencyInternalName: "fire",
+            currencyLayer: 'e',
+            effect() {
+                let value = new Decimal(player[this.layer].fire)
+                if (value > 0) {
+                    value = value.pow(0.2).log(3).div(4)
+                    return value.add(1)
+                }
+            },
+            effectDisplay() {
+                return format(upgradeEffect(this.layer, this.id)) + "x"
+            }
+        },
         31: {
             title: "Ocean Foam",
             description: "Water Essence increases Air Essence gain",

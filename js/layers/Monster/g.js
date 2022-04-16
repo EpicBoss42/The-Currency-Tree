@@ -35,6 +35,9 @@ addLayer("g", {
         if (x !== 'g' && x == 'b' && x !== 'm' && x !== 'ba' && x !== 'bs') {
             layerDataReset(this.layer)
         }
+        if (x === this.layer) {
+            player.w.copper = new Decimal(10)
+        }
     },
     buyables: {
         11: {

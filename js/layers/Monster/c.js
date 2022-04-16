@@ -33,12 +33,15 @@ addLayer("c", {
         return "ghost"
     },          // Returns a bool for if this layer's node should be visible in the tree.
     doReset(x) {
-        if (x !== 'c' && x !== 'bs' && x !== 'ba' && x !== 'si') {
+        if (x !== 'c' && x !== 'bs' && x !== 'ba' && x !== 'si' && x !== 'v') {
             let keptUpgrades = []
             if (player.m.unlocked) keptUpgrades.push('31')
             if (player.b.unlocked) keptUpgrades.push('32')
             layerDataReset(this.layer)
             player[this.layer].upgrades = keptUpgrades
+        }
+        if (x === this.layer) {
+            player.w.copper = new Decimal(10)
         }
     },
     upgrades: {

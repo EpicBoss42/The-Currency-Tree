@@ -39,6 +39,11 @@ addLayer("a", {
         if(getBuyableAmount('m', 12) > 1 && getBuyableAmount('g', 11) > 1 && hasUpgrade('b', 25) && player.w.copper > new Decimal(1e25)) return true
         return "ghost"
     },
+    doReset(x) {
+        if (x === this.layer) {
+            player.w.copper = new Decimal(10)
+        }
+    },
     enGainBase() {
         let value = new Decimal(1)
         return value

@@ -27,14 +27,16 @@ addLayer("w", {
         return value
     },
     layerShown() {
-        if (hasUpgrade('m', 12)) return true
-        return true
+        if (true) return true
+        return "ghost"
     },    
     unlocked() {
         return true
     },
     update(diff) {
         let tGain = new Decimal(1)
+        if (hasUpgrade('e', 12)) tGain = tGain.mul(upgradeEffect('e', 12))
+        if (player.v.unlocked) tGain = tGain.mul(tmp.v.effect)
         player[this.layer].tSec = tGain
         player[this.layer].tpoints = player[this.layer].tpoints.add(tGain.mul(diff))
         if (player.points != player[this.layer].tpoints) player.points = player[this.layer].tpoints
@@ -72,7 +74,7 @@ addLayer("w", {
                 ["display-text", function() {
                     return "You have " + format(player[this.layer].tpoints) + " Points<br>(" + format(player[this.layer].tSec) + "/sec)"
                 }],
-                ["tree", [["e"], ["blank"], ["w"]]]
+                ["tree", [["v"], ["e"], ["blank"], ["w"]]]
             ]
         },
         "RPG Monster World": {

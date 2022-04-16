@@ -7,6 +7,7 @@ let modInfo = {
         "layers.js", 
         "tree.js", 
         "layers/Starting/Elements.js",
+		"layers/Starting/Void.js",
         "layers/Starting/Wormhole.js",
         "layers/Monster/s.js", 
         "layers/Monster/si.js", 
@@ -19,7 +20,6 @@ let modInfo = {
         "layers/Monster/Town/blacksmith.js",
         "layers/Monster/Pit/tunnels.js"
     ],
-
 	discordName: "",
 	discordLink: "",
 	initialStartPoints: new Decimal (0), // Used for hard resets and new players
@@ -92,7 +92,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	if (player.points.gte(new Decimal("e1e1e1000")) && player.a.points == 1) return true
+	if (player.points.gte(new Decimal("e1e1e1000"))) return true
     return false
 }
 
