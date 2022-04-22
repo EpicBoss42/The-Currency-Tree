@@ -51,6 +51,7 @@ addLayer("e", {
     fGainMult() {
         let value = new Decimal(1)
         value = value.mul(player[this.layer].points)
+        if (hasUpgrade(this.layer, 13)) value = value.mul(upgradeEffect(this.layer, 13))
         return value
     },
     fGainExp() {
@@ -206,6 +207,24 @@ addLayer("e", {
                 return format(upgradeEffect(this.layer, this.id)) + "x"
             }
         },
+        13: {
+            title: "Drifting Embers",
+            description: "Air Essence increases Fire Essence gain",
+            cost: new Decimal(2500),
+            currencyDisplayName: "Fire Essence",
+            currencyInternalName: "fire",
+            currencyLayer: 'e',
+            effect() {
+                let value = new Decimal(player[this.layer].fire)
+                if (player[this.layer].fire > 0) {
+                    value = value.log(10)
+                    return value.add(1)
+                }
+            },
+            effectDisplay() {
+                return format(upgradeEffect(this.layer, this.id)) + "x"
+            }
+        },
         31: {
             title: "Ocean Foam",
             description: "Water Essence increases Air Essence gain",
@@ -224,6 +243,24 @@ addLayer("e", {
                 return format(upgradeEffect(this.layer, this.id)) + "x"
             }
         }, 
+        32: {
+            title: "Fishing",
+            description: "Water Essence increases Point gain",
+            cost: new Decimal(1500),
+            currencyDisplayName: "Water Essence",
+            currencyInternalName: "water",
+            currencyLayer: 'e',
+            effect() {
+                let value = new Decimal(player[this.layer].water)
+                if (value > 0) {
+                    value = value.pow(0.5).log(2).div(7)
+                    return value.add(1)
+                }
+            },
+            effectDisplay() {
+                return format(upgradeEffect(this.layer, this.id)) + "x"
+            }
+        },
         51: {
             title: "Whistling Canyons",
             description: "Earth Essence increases Air Essence Gain",

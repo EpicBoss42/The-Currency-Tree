@@ -51,7 +51,7 @@ addLayer("c", {
             cost: new Decimal(1),
             effect() {
                 let value = player[this.layer].total
-                value = value.add(0.9).log(3)
+                value = value.add(1).log(3)
                 return value.add(1)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x"},

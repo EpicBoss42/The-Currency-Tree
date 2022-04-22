@@ -36,6 +36,7 @@ addLayer("w", {
     update(diff) {
         let tGain = new Decimal(1)
         if (hasUpgrade('e', 12)) tGain = tGain.mul(upgradeEffect('e', 12))
+        if (hasUpgrade('e', 32)) tGain = tGain.mul(upgradeEffect('e', 32))
         if (player.v.unlocked) tGain = tGain.mul(tmp.v.effect)
         player[this.layer].tSec = tGain
         player[this.layer].tpoints = player[this.layer].tpoints.add(tGain.mul(diff))
