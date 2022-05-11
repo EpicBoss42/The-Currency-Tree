@@ -16,6 +16,9 @@ addLayer("ba", {
     requires: new Decimal(25),
     type: "normal",
     exponent: 1,
+    hotkeys: [
+        {key: "k", description: "K: Reset for Banks", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.w.rpgKey}},
+    ],
     gainMult() {
         let value = new Decimal(1)
         return value

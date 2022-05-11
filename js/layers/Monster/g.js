@@ -24,7 +24,7 @@ addLayer("g", {
         return new Decimal(1)
     },
     hotkeys: [
-        {key: "g", description: "G: Reset for Gold Points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "g", description: "G: Reset for Gold Points", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.w.rpgKey}},
     ],
 
     layerShown() { 

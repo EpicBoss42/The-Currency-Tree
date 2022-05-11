@@ -28,7 +28,7 @@ addLayer("b", {
         return new Decimal(1)
     },
     hotkeys: [
-        {key: "b", description: "B: Reset for Breeders", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "b", description: "B: Reset for Breeders", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.w.rpgKey}},
     ],
     aoGainExp() {
         let value = new Decimal(1)

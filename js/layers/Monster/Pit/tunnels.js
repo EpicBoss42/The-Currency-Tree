@@ -22,6 +22,9 @@ addLayer("t", {
     requires: new Decimal(25),
     type: "static",
     exponent: 1.5,
+    hotkeys: [
+        {key: "t", description: "T: Reset for Tunnels", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.w.rpgKey}},
+    ],
     base: new Decimal(25),
     gainMult() {
         let value = new Decimal(1)

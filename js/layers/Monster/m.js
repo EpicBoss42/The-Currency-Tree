@@ -25,7 +25,7 @@ addLayer("m", {
         return new Decimal(1)
     },
     hotkeys: [
-        {key: "m", description: "M: Reset for Mechanics", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "m", description: "M: Reset for Mechanics", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.w.rpgKey}},
     ],
     gainExp() {
         return new Decimal(1)

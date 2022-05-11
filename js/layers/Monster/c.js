@@ -17,7 +17,7 @@ addLayer("c", {
     type: "normal",                         // Determines the formula used for calculating prestige currency.
     exponent: 0.4,                          // "normal" prestige gain is (currency^exponent).
     hotkeys: [
-        {key : "c", description: "C: Reset for Caves", onPress(){if (canReset(this.layer)) doReset(this.layer)}}
+        {key : "c", description: "C: Reset for Caves", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.w.rpgKey}}
     ],
     gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
         let value = new Decimal(1)

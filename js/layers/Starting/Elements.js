@@ -1,7 +1,7 @@
 addLayer("e", {
     startData() {
         return {
-            unlocked: false,
+            unlocked: true,
             points: new Decimal(0),
             fire: new Decimal(0),
             fSec: new Decimal(0),
@@ -14,8 +14,8 @@ addLayer("e", {
             time: new Decimal(0),
         }
     },
-    branches: ['v'],
-    color: "#e8e8e8",
+    branches: ['v', 'ae'],
+    color: "#CFA441",
     resource: "Elemental Essence",
     row: 1,
     baseResource: "points",
@@ -23,11 +23,14 @@ addLayer("e", {
     requires: new Decimal(10),
     type: "normal",
     exponent: 0.3,
+    hotkeys: [
+        {key: "e", description: "E: Reset for Elemental Essence", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.w.realKey}},
+    ],
     doReset(x) {
         if (x === this.layer) {
             player.w.tpoints = new Decimal(0)
         }
-        if (x === "v") {
+        if (x === "v" || x === "ae") {
             layerDataReset(this.layer)
         }
     },
@@ -46,6 +49,7 @@ addLayer("e", {
     },    
     fBase() {
         let value = new Decimal(1)
+        if (hasUpgrade('ae', 11)) value = value.add(upgradeEffect('ae', 11))
         return value
     },
     fGainMult() {
@@ -56,10 +60,12 @@ addLayer("e", {
     },
     fGainExp() {
         let value = new Decimal(1)
+        if (hasUpgrade('ae', 12)) value = value.add(upgradeEffect('ae', 11))
         return value
     },
     wBase() {
         let value = new Decimal(1)
+        if (hasUpgrade('ae', 11)) value = value.add(upgradeEffect('ae', 11))
         return value
     },
     wGainMult() {
@@ -69,10 +75,12 @@ addLayer("e", {
     },
     wGainExp() {
         let value = new Decimal(1)
+        if (hasUpgrade('ae', 12)) value = value.add(upgradeEffect('ae', 11))
         return value
     },
     aBase() {
         let value = new Decimal(1)
+        if (hasUpgrade('ae', 11)) value = value.add(upgradeEffect('ae', 11))
         return value
     },
     aGainMult() {
@@ -85,10 +93,12 @@ addLayer("e", {
     },
     aGainExp() {
         let value = new Decimal(1)
+        if (hasUpgrade('ae', 12)) value = value.add(upgradeEffect('ae', 11))
         return value
     },
     eBase() {
         let value = new Decimal(1)
+        if (hasUpgrade('ae', 11)) value = value.add(upgradeEffect('ae', 11))
         return value
     },
     eGainMult() {
@@ -98,6 +108,7 @@ addLayer("e", {
     },
     eGainExp() {
         let value = new Decimal(1)
+        if (hasUpgrade('ae', 12)) value = value.add(upgradeEffect('ae', 11))
         return value
     },
     update(diff) {

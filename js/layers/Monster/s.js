@@ -3,7 +3,7 @@ addLayer("s", {
     symbol: "S",
     position: 1,
     startData() { return {
-        unlocked: true,
+        unlocked: false,
 		points: new Decimal(0),
     }},
     color: "#B36D22",
@@ -37,6 +37,7 @@ addLayer("s", {
             onPress() {
                 if (canReset(this.layer)) doReset(this.layer)
             }
+            , unlocked() {return player.w.rpgKey}
         },
     ],
     layerShown(){return true},

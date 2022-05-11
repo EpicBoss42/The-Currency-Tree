@@ -15,6 +15,9 @@ addLayer("a", {
     requires: new Decimal(1),
     exponent: new Decimal(1),
     type: "normal",
+    hotkeys: [
+        {key: "a", description: "A: Reset for Ascension", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.w.rpgKey}},
+    ],
     prestigeButtonText() {
         let current = new Decimal(player[this.layer].points)
         let buttonText = "Placeholder Text"

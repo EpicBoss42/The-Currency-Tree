@@ -1,12 +1,15 @@
 addLayer("w", {
     startData() {
         return {
-            unlocked: false,
+            unlocked: true,
+            //Above line is temporary, fix later
             points: new Decimal(0),
             tpoints: new Decimal(0),
             tSec: new Decimal(0),
             copper: new Decimal(10),
             copperSec: new Decimal(0),
+            realKey: true,
+            rpgKey: false,
         }
     },
     color: "#e1e1e1",
@@ -72,14 +75,24 @@ addLayer("w", {
     tabFormat: {
         "The Real World": {
             content: [
+                ["display-text", "Toggle this world's Hotkeys"],
+                ["display-text", "(More than one at once may cause problems)"],
+                "blank",
+                ["toggle", ["w", "realKey"]],
+                "blank",
                 ["display-text", function() {
                     return "You have " + format(player[this.layer].tpoints) + " Points<br>(" + format(player[this.layer].tSec) + "/sec)"
                 }],
-                ["tree", [["v"], ["e"], ["blank"], ["w"]]]
+                ["tree", [["v"], ["ae", "e", "blank"], ["blank"], ["w"]]]
             ]
         },
         "RPG Monster World": {
             content: [
+                ["display-text", "Toggle this world's Hotkeys"],
+                ["display-text", "(More than one at once may cause problems)"],
+                "blank",
+                ["toggle", ["w", "rpgKey"]],
+                "blank",
                 ["display-text", function() {
                     return "You have " + format(player[this.layer].copper) + " Copper Points"
                 }],

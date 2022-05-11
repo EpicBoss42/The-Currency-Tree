@@ -13,6 +13,9 @@ addLayer("v", {
     requires: new Decimal(100),
     type: "normal",
     exponent: 0.25,
+    hotkeys: [
+        {key: "v", description: "V: Reset for Void Essence", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.w.realKey}},
+    ],
     gainMult() {
         let value = new Decimal(1)
         return value

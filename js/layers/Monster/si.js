@@ -6,7 +6,7 @@ addLayer("si", {
 
     }},
     hotkeys: [
-        {key: "S", description: "Shift + S: Reset for Silver Points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "S", description: "Shift + S: Reset for Silver Points", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.w.rpgKey}},
     ],
     color: "#909090",                       // The color for this layer, which affects many elements.
     resource: "silver points",            // The name of this layer's main prestige resource.

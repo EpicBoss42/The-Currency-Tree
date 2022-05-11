@@ -8,6 +8,7 @@ let modInfo = {
         "tree.js", 
         "layers/Starting/Elements.js",
 		"layers/Starting/Void.js",
+		"layers/Starting/Aether.js",
         "layers/Starting/Wormhole.js",
         "layers/Monster/s.js", 
         "layers/Monster/si.js", 
@@ -28,11 +29,14 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1.0",
+	num: "0.1.1",
 	name: "The Beginning Seed",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h2>v0.1.1</h2><br>
+		-Added Void and Aether<br>
+		-Fixed minor errors introduced in testing during previous updates<br><br>
 	<h2>v0.1.0 - The Beginning Seed</h2><br>
 		<h3>Changed from RPG Monster Tree to World Tree, so versions reset</h3><br>
 		-Added Elements and Wormhole<br>
