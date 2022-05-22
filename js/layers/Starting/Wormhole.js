@@ -13,7 +13,7 @@ addLayer("w", {
         }
     },
     color: "#e1e1e1",
-    image: "file:///home/boss/Documents/GitHub/The-Currency-Tree/resources/Portal.png",
+    image: "https://github.com/EpicBoss42/The-World-Tree/raw/master/resources/Portal.png",
     leftTab: true,
     resource: "Wormholes",
     row: 100,

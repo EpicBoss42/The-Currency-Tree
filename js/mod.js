@@ -31,11 +31,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2.0",
+	num: "0.2.1",
 	name: "Spacetime Expansion",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h2>v0.2.1</h2><br>
+		-Fixed a bug involving a bear, the Wormhole layer's portal image, and a swarm of angry turnips<br><br>
 	<h2>v0.2.0 - Spacetime Expansion</h2><br>
 		-Fixed error with display text overlapping info by removing it<br>
 		(Endgame is at e1e1e1000 points)<br>
