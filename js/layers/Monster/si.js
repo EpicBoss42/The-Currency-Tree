@@ -93,7 +93,7 @@ addLayer("si", {
     upgrades: {
         11: {
             title: "Baby Slime Upgrade",
-            description: "Upgrade your Baby Slimes to make them twice as effective at generating money!",
+            description: "Baby slimes are twice as effective",
             cost: new Decimal(1),
             effect() {
                 let value = new Decimal(2)
@@ -107,7 +107,7 @@ addLayer("si", {
         },
         13: {
             title: "Posters",
-            description: "Attract more adventurers by purchasing advertising posters, increasing copper point gain based on silver points.",
+            description: "Copper point gain is increased based on silver points.",
             cost: new Decimal(10),
             effect() {
                 let value = new Decimal(player[this.layer].points)
@@ -118,7 +118,7 @@ addLayer("si", {
         },
         14: {
             title: "Slime Food",
-            description: "Using your money, you purchase a device that helps you gain Slime Points 25% faster",
+            description: "You gain Slime Points 25% faster",
             cost: new Decimal(25),
             effect() {
                 let value = new Decimal(1.25)
@@ -127,7 +127,7 @@ addLayer("si", {
         },
         21: {
             title: "Triangular Slimes",
-            description: "By having your slimes take on the appearance of pyramids, they square their copper point gain",
+            description: "Slime effectiveness is squared",
             cost: new Decimal(125),
             effect() {
                 let value = new Decimal(2)
@@ -136,7 +136,7 @@ addLayer("si", {
         },
         22: {
             title: "Better Exchange Rates",
-            description: "Better exchange rates allow you to gain 15% more Silver Points",
+            description: "You gain 15% more Silver Points",
             cost: new Decimal(150),
             effect() {
                 let value = new Decimal(1.15)
@@ -145,7 +145,7 @@ addLayer("si", {
         },
         23: {
             title: "Elderly Slime Mentor Program",
-            description: "Your Adult Slimes boost your Baby Slime production.",
+            description: "Your Adult Slimes boost your Baby Slime's effectiveness",
             cost: new Decimal(250),
             effect() {
                 let value = getBuyableAmount('s', 13).add(1).pow(0.5)

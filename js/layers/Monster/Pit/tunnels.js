@@ -93,7 +93,7 @@ addLayer("t", {
         },
         12: {
             title: "Artificial Caves",
-            description: "Use some of your tunnels to increase your Cave gain by 25%",
+            description: "Cave gain is increased by 25%",
             cost: new Decimal(100),
             currencyDisplayName: "ft of Tunnels",
             currencyInternalName: "tunnellength",
@@ -101,7 +101,7 @@ addLayer("t", {
         },
         13: {
             title: "Tunnel Network Alpha",
-            description: "Using your tunnel network, you can identify likely adventurers, and directly entice them to come into your dungeon.",
+            description: "Tunnels boost copper point gain",
             cost: new Decimal(1000),
             currencyDisplayName: "ft of Tunnels",
             currencyInternalName: "tunnellength",
@@ -115,7 +115,7 @@ addLayer("t", {
         },
         14: {
             title: "Metallic Waste",
-            description: "With advanced filtering devices, you can extract some metal as your tunnel diggers work.",
+            description: "Metal is produced at the same time as tunnels",
             cost: new Decimal(5),
             currencyDisplayName: "Silver Coins",
             currencyInternalName: "silver",

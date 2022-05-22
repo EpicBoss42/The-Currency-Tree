@@ -9,6 +9,8 @@ let modInfo = {
         "layers/Starting/Elements.js",
 		"layers/Starting/Void.js",
 		"layers/Starting/Aether.js",
+		"layers/Starting/Time.js",
+		"layers/Starting/Space.js",
         "layers/Starting/Wormhole.js",
         "layers/Monster/s.js", 
         "layers/Monster/si.js", 
@@ -21,23 +23,30 @@ let modInfo = {
         "layers/Monster/Town/blacksmith.js",
         "layers/Monster/Pit/tunnels.js"
     ],
-	discordName: "",
-	discordLink: "",
+	discordName: "The World Tree Server",
+	discordLink: "https://discord.gg/wNJxhxT9QH",
 	initialStartPoints: new Decimal (0), // Used for hard resets and new players
 	offlineLimit: 24,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1.1",
-	name: "The Beginning Seed",
+	num: "0.2.0",
+	name: "Spacetime Expansion",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h2>v0.2.0 - Spacetime Expansion</h2><br>
+		-Fixed error with display text overlapping info by removing it<br>
+		(Endgame is at e1e1e1000 points)<br>
+		-Added new Elemental upgrades<br>
+		-Retroactively renamed v0.1.0 to The World Seed from The Beginning Seed<br>
+		-Created Time and Space<br>
+		-Clarified some wordings in the RPG Monster World<br><br>
 	<h2>v0.1.1</h2><br>
 		-Added Void and Aether<br>
 		-Fixed minor errors introduced in testing during previous updates<br><br>
-	<h2>v0.1.0 - The Beginning Seed</h2><br>
+	<h2>v0.1.0 - The World Seed</h2><br>
 		<h3>Changed from RPG Monster Tree to World Tree, so versions reset</h3><br>
 		-Added Elements and Wormhole<br>
 		-Added Element Upgrades<br><br>
@@ -91,7 +100,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-    "Endgame is currently at e1e1e1000 Points", "This is probably unachievable"
+    //"Endgame is currently at e1e1e1000 Points", "This is probably unachievable"
 ]
 
 // Determines when the game "ends"

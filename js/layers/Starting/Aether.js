@@ -6,9 +6,10 @@ addLayer("ae", {
             best: new Decimal(0),
         }
     },
-    color: "#26A444",
+    color: "#FFFFFF",
     resource: "Aether Essence",
     row: 2,
+    branches: ['e'],
     baseResource: "Elemental Essence",
     baseAmount() { return player.e.points },
     requires: new Decimal(100),
@@ -26,7 +27,6 @@ addLayer("ae", {
         return value
     },
     layerShown() {
-        if (hasUpgrade('m', 12)) return true
         return true
     },    
     doReset(x) {
@@ -37,21 +37,38 @@ addLayer("ae", {
     upgrades: {
         11: {
             title: "Stronger Seperation",
-            description: "Best Aether Essence boosts each elemental essence's base gain",
+            description: "Aether Essence boosts each elemental essence's base gain",
             cost: new Decimal(1),
             effect() {
-                let value = new Decimal(player[this.layer].best)
-                value = value.add(1).log(5)
+                let value = new Decimal(player[this.layer].points)
+                if (value > 0) {
+                value = value.log(5)
+                if (inChallenge('v', 12)) return new Decimal(0)
                 return value
+                }
             },
             effectDisplay() {
                 return "+" + format(upgradeEffect(this.layer, this.id))
             }
         },
-        12: {
+        21: {
             title: "STRONGER Seperation",
-            description: "The previous upgrade also boosts each elemental essence's base exponent",
+            description: "The first upgrade also boosts each elemental essence's base exponent",
+            cost: new Decimal(50),
+        },
+        12: {
+            title: "Aetheric Resonance",
+            description: "Aether Essence increases base point gain",
             cost: new Decimal(5),
+            effect() {
+                let value = new Decimal(player[this.layer].points)
+                value = value.add(1).log(6).div(2)
+                if (inChallenge('v', 12)) return new Decimal(0)
+                return value.add(1)
+            },
+            effectDisplay() {
+                return "+" + format(upgradeEffect(this.layer, this.id))
+            }
         }
     },
 })

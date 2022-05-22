@@ -1,6 +1,8 @@
 addLayer("e", {})
 addLayer("v", {})
 addLayer("ae", {})
+addLayer("ti", {})
+addLayer("sp", {})
 addLayer("w", {startData() {
     return {
         unlocked: false,

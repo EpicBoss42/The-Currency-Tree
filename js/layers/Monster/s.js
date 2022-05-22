@@ -180,7 +180,7 @@ addLayer("s", {
         },
         31: {
             title: "Baby Horde",
-            description: "Teach your Baby Slimes how to attack all at once, increasing Baby Slime effectiveness based on how many Baby Slimes you own",
+            description: "Baby Slime effectiveness is increased based on how many Baby Slimes you own",
             cost: new Decimal(5000),
             unlocked() {
                 if (hasUpgrade('si', 24) && hasUpgrade('s', 11)) {return true}
@@ -194,7 +194,7 @@ addLayer("s", {
         },
         32: {
             title: "Juvenile Delinquency",
-            description: "Encourage your Juvenile Slimes to become more aggressive, allowing them to earn 125% more copper points per second",
+            description: "Juvenile slimes earn 125% more copper points per second",
             cost: new Decimal(10000),
             unlocked() {
                 if (hasUpgrade('si', 24) && hasUpgrade('s', 12)) {return true}
@@ -208,7 +208,7 @@ addLayer("s", {
         },
         33: {
             title: "Adult Support",
-            description: "Your adult slimes help your Red, Blue, and Yellow slimes, increasing their buff by 25% for each Adult Slime",
+            description: "Red, Blue, and Yellow Slimes' buff is increased by 25% for each Adult Slime",
             cost: new Decimal(25000),
             unlocked() {
                 if (hasUpgrade('si', 24) && hasUpgrade('s', 13)) {return true}
@@ -224,7 +224,7 @@ addLayer("s", {
         },
         41: {
             title: "Join the League of Silver",
-            description: "By purchasng a membership for the League of Silver, you can unlock milestones for Silver Points.",
+            description: "By purchasng a membership for the League of Silver, you can unlock milestones for Silver Points",
             cost: new Decimal(100000),
             unlocked() {
                 if (hasUpgrade('s', 31) && hasUpgrade('s', 32) && hasUpgrade('s', 33)) {return true}
@@ -431,7 +431,7 @@ addLayer("s", {
                 return value
             },
             display() {
-                return `A Red Slime to increase the effect of your Adult Slimes.<br>
+                return `A Yellow Slime to increase the effect of your Adult Slimes.<br>
                 You own ` + getBuyableAmount(this.layer, this.id) + ` Yellow Slimes!<br>
                 The next one costs ` + this.cost() + ` slime points and one Adult Slime.<br>
                 Your Yellow Slimes are providing a ` + format(buyableEffect(this.layer, this.id)) + "x boost to the Adult Slime's production"

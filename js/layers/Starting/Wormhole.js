@@ -13,6 +13,7 @@ addLayer("w", {
         }
     },
     color: "#e1e1e1",
+    image: "file:///home/boss/Documents/GitHub/The-Currency-Tree/resources/Portal.png",
     leftTab: true,
     resource: "Wormholes",
     row: 100,
@@ -38,12 +39,26 @@ addLayer("w", {
     },
     update(diff) {
         let tGain = new Decimal(1)
+        //Normal Point Addition
+        if (hasUpgrade('ae', 12)) tGain = tGain.add(upgradeEffect('ae', 12))
+        //Normal Point Multipliers
         if (hasUpgrade('e', 12)) tGain = tGain.mul(upgradeEffect('e', 12))
         if (hasUpgrade('e', 32)) tGain = tGain.mul(upgradeEffect('e', 32))
+        if (hasUpgrade('e', 73)) tGain = tGain.mul(upgradeEffect('e', 73))
+        if (hasUpgrade('ti', 11)) tGain = tGain.mul(upgradeEffect('ti', 11))
+        if (hasUpgrade('ti', 12)) tGain = tGain.mul(upgradeEffect('ti', 12))
+        if (hasUpgrade('ti', 21)) tGain = tGain.mul(upgradeEffect('ti', 21))
+        if (hasChallenge('v', 11)) tGain = tGain.mul(challengeEffect('v', 11))
+        if (hasUpgrade('sp', 11)) tGain = tGain.mul(upgradeEffect('sp', 11))
+        if (hasUpgrade('sp', 24)) tGain = tGain.mul(upgradeEffect('sp', 24)[1])
         if (player.v.unlocked) tGain = tGain.mul(tmp.v.effect)
+        //Normal Point Exponent
+        //Normal Point Challenge Effects
+        if (inChallenge('v', 11)) tGain = tGain.pow(0.5)
+
         player[this.layer].tSec = tGain
         player[this.layer].tpoints = player[this.layer].tpoints.add(tGain.mul(diff))
-        if (player.points != player[this.layer].tpoints) player.points = player[this.layer].tpoints
+        if (player.points != player[this.layer].tpoints) player.points = player[this.layer].tpoints        
 
         //Copper Point Gain
         let copperGain = new Decimal(0)
@@ -83,7 +98,7 @@ addLayer("w", {
                 ["display-text", function() {
                     return "You have " + format(player[this.layer].tpoints) + " Points<br>(" + format(player[this.layer].tSec) + "/sec)"
                 }],
-                ["tree", [["v"], ["ae", "e", "blank"], ["blank"], ["w"]]]
+                ["tree", [["v"], ["ae", "e", "ti"], ["sp"], ["w"]]]
             ]
         },
         "RPG Monster World": {

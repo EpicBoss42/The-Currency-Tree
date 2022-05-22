@@ -2,6 +2,7 @@ addLayer("c", {
     startData() { return {                  // startData is a function that returns default data for a layer. 
         unlocked: false,                     // You can add more variables here to add them to your layer.
         points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
+        total: new Decimal(0),
     }},
     branches: ['s'],
     color: "#616161",                       // The color for this layer, which affects many elements.
@@ -47,7 +48,7 @@ addLayer("c", {
     upgrades: {
         11: {
             title: "More Living Space",
-            description: "More caves allows your slimes to have a larger area to live in, increasing slime point production",
+            description: "Total caves increases Slime Point gain",
             cost: new Decimal(1),
             effect() {
                 let value = player[this.layer].total
@@ -58,7 +59,7 @@ addLayer("c", {
         },
         12: {
             title: "Small Dropshafts",
-            description: "Add small holes in the ceiling that Baby and Juvenile slimes can wait in to drop on adventurers, increasing copper point gain by 45%.",
+            description: "Baby Slime and Juvenile Slime effectiveness is increased 45%",
             cost: new Decimal(5),
             effect() {
                 let value = new Decimal(1.45)
@@ -78,7 +79,7 @@ addLayer("c", {
         },
         14: {
             title: "Dirt Road",
-            description: "Use some copper points to maintain a dirt path to your dungeon, generating more copper points per second",
+            description: "Copper points boost copper point gain",
             cost: new Decimal(25),
             effect() {
                 let value = player.w.copper
@@ -89,7 +90,7 @@ addLayer("c", {
         },
         21: {
             title: "Monster Advertisements",
-            description: "Advertise the benefits of living in your dungeon to attract twice as many slimes!",
+            description: "Slime purchases are doubled",
             cost: new Decimal(100),
             effect() {
                 let value = new Decimal(2)
@@ -98,7 +99,7 @@ addLayer("c", {
         },
         22: {
             title: "The Young Teaching The Young",
-            description: "Baby and Juvenile Slimes teach each other effective hunting tactics, each one buffing the others by 10%",
+            description: "Each Baby and Juvenile Slime buffs each other by 10%",
             cost: new Decimal(250),
             effect() {
                 let value = new Decimal(0)

@@ -112,7 +112,7 @@ addLayer("b", {
         },
         21: {
             title: "Copper Bark",
-            description: "Modify your Ancient Oak roots to have copper bark, increasing your copper point generation based on your Ancient Oak roots.",
+            description: "Ancient Oak roots boost Copper Point gain",
             cost: new Decimal(50),
             currencyDisplayName: "Ancient Oak Roots",
             currencyInternalName: "ancientoak",
@@ -128,7 +128,7 @@ addLayer("b", {
         },
         22: {
             title: "Copper Nodules",
-            description: "Modify your Ancient Oak roots further to grow Copper nodules, increasing the previous upgrade's effect.",
+            description: "Copper Bark is more effective",
             cost: new Decimal(100),
             currencyDisplayName: "Ancient Oak Roots",
             currencyInternalName: "ancientoak",
@@ -136,7 +136,7 @@ addLayer("b", {
         },
         23: {
             title: "Larger Seedlings",
-            description: "Using larger seedlings, you are able to quintuple (x5) Ancient Oak root gain.",
+            description: "Ancient Oak root gain is quintupled (x5)",
             cost: new Decimal(250),
             currencyDisplayName: "Ancient Oak Roots",
             currencyInternalName: "ancientoak",
@@ -144,7 +144,7 @@ addLayer("b", {
         },
         24: {
             title: "Hypnotic Patterning",
-            description: "By encouraging growth of a strange pattern on your Ancient Oak roots, you can stun adventurers to increase Slime and Trap copper point gain.",
+            description: "Slime and Trap copper point gain is more effective",
             cost: new Decimal(750),
             currencyDisplayName: "Ancient Oak Roots",
             currencyInternalName: "ancientoak",
@@ -184,7 +184,7 @@ addLayer("b", {
         },
         27: {
             title: "Slime Nodules",
-            description: "By growing slime nodules on your Ancient Oak roots, slimes don't take any slime points when bought",
+            description: "Slime purchases don't change Slime Points",
             cost: new Decimal(10000),
             currencyDisplayName: "Ancient Oak Roots",
             currencyInternalName: "ancientoak",

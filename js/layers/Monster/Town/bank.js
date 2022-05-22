@@ -130,7 +130,7 @@ addLayer("ba", {
     upgrades: {
         11: {
             title: "Savings Vault",
-            description: "Invest a few Copper Coins in order to gain a few Copper Points each second",
+            description: "Gain a few Copper Points each second",
             cost: new Decimal(5),
             effect() {
                 let value = new Decimal(5)
@@ -141,12 +141,12 @@ addLayer("ba", {
         },
         12: {
             title: "Department of Investments",
-            description: "Unlock Investments, a new tab that allows you to generate more Copper Points",
+            description: "Unlock Investments, a new tab that boosts Savings Vault",
             cost: new Decimal(10),
         },
         13: {
             title: "Department of Lesser Currencies",
-            description: "Unlock Conversion, a new tab that allows you to convert Copper Coins into Silver or Gold coins",
+            description: "Unlock Conversion, a new tab that enables the conversion of Silver and Gold coins",
             cost: new Decimal(1000),
         }
     },
