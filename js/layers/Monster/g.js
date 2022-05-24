@@ -32,7 +32,7 @@ addLayer("g", {
         return "ghost"
      },          // Returns a bool for if this layer's node should be visible in the tree.
     doReset(x) {
-        if (x !== 'g' && x == 'b' && x !== 'm' && x !== 'ba' && x !== 'bs') {
+        if (x !== 'g' && x !== 'b' && x !== 'm' && x !== 'ba' && x !== 'bs') {
             layerDataReset(this.layer)
         }
         if (x === this.layer) {
