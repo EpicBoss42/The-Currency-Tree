@@ -31,7 +31,7 @@ addLayer("m", {
         return new Decimal(1)
     },
     doReset(x) {
-        if (x !== 'g' && x == 'b' && x !== 'm' && x !== 'ba' && x !== 'bs') {
+        if (x !== 'g' && x !== 'b' && x !== 'm' && x !== 'ba' && x !== 'bs') {
             layerDataReset(this.layer)
         }
         if (x === this.layer) {
