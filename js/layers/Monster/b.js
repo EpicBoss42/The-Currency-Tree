@@ -17,8 +17,8 @@ addLayer("b", {
     canBuyMax() {
         return true
     },
-    type: "static",                         // Determines the formula used for calculating prestige currency.
-    exponent: new Decimal(1.1),                          // "normal" prestige gain is (currency^exponent).
+    type: "normal",                         // Determines the formula used for calculating prestige currency.
+    exponent: new Decimal(0.1),                          // "normal" prestige gain is (currency^exponent).
     roundUpCost() {return true},
     gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
         return new Decimal(1)
