@@ -39,7 +39,7 @@ addLayer("a", {
     
     layerShown() {
         if (player[this.layer].unlocked) return true
-        if(getBuyableAmount('m', 12) > 1 && getBuyableAmount('g', 11) > 1 && hasUpgrade('b', 25) && player.w.copper > new Decimal(1e25)) return true
+        if(getBuyableAmount('m', 12) > 1 && getBuyableAmount('g', 11) > 1 && hasUpgrade('b', 25) && player.w.copper > new Decimal(1e12)) return true
         return "ghost"
     },
     doReset(x) {
