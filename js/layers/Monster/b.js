@@ -13,7 +13,7 @@ addLayer("b", {
     baseAmount() { return player.si.points },  // A function to return the current amount of baseResource.
     branches: ['c', 'si'],
     requires: new Decimal(50),              // The amount of the base needed to  gain 1 of the prestige currency..
-    base: new Decimal(1500),
+    base: new Decimal(150),
     canBuyMax() {
         return true
     },
