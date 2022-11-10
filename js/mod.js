@@ -2,10 +2,11 @@ let modInfo = {
 	name: "World Tree Directory",
 	id: "worlddir",
 	author: "EpicBoss42",
-	pointsName: "N/A",
+	pointsName: "Omnipoints",
 	modFiles: [
         "layers.js", 
         "tree.js", 
+		"layers/ygg.js"
     ],
 	discordName: "The World Tree Server",
 	discordLink: "https://discord.gg/wNJxhxT9QH",
@@ -15,8 +16,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "Directory",
-	name: "Directory",
+	num: "0.1",
+	name: "Random Stuff",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -41,7 +42,7 @@ function canGenPoints(){
 function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
-	let gain = new Decimal(1)
+	let gain = new Decimal(0.1)
 	return gain
 }
 
@@ -51,7 +52,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-    "The repository structure has changed, you may be looking for:", "https://raw.githack.com/EpicBoss42/The-Modding-Tree/world_tree/index.html"
+    ""
 ]
 
 // Determines when the game "ends"
