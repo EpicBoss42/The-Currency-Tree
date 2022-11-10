@@ -1,21 +1,21 @@
 let modInfo = {
-	name: "World Tree Directory",
+	name: "Omni Tree Directory",
 	id: "worlddir",
 	author: "EpicBoss42",
-	pointsName: "N/A",
+	pointsName: "Wasted Time",
 	modFiles: [
         "layers.js", 
         "tree.js", 
     ],
-	discordName: "The World Tree Server",
+	discordName: "The World/Omni Tree Server",
 	discordLink: "https://discord.gg/wNJxhxT9QH",
 	initialStartPoints: new Decimal (0), // Used for hard resets and new players
-	offlineLimit: 24,  // In hours
+	offlineLimit: 0,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "Directory",
+	num: "1",
 	name: "Directory",
 }
 
@@ -51,7 +51,9 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-    "The repository structure has changed, you may be looking for:", "https://raw.githack.com/EpicBoss42/The-Modding-Tree/world_tree/index.html"
+    "The repository structure has changed, you may be looking for:", 
+	"<a href = \"https://raw.githack.com/EpicBoss42/The-Modding-Tree/world_tree/index.html\">The World Tree</a>", 
+	"<a href = \"https://raw.githack.com/EpicBoss42/The-Modding-Tree/omnitree/index.html\">The Omnitree</a>"
 ]
 
 // Determines when the game "ends"
