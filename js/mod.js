@@ -1,27 +1,11 @@
 let modInfo = {
-	name: "The World Tree",
-	id: "worldtree",
+	name: "World Tree Directory",
+	id: "worlddir",
 	author: "EpicBoss42",
-	pointsName: "Points",
+	pointsName: "N/A",
 	modFiles: [
         "layers.js", 
         "tree.js", 
-        "layers/Starting/Elements.js",
-		"layers/Starting/Void.js",
-		"layers/Starting/Aether.js",
-		"layers/Starting/Time.js",
-		"layers/Starting/Space.js",
-        "layers/Starting/Wormhole.js",
-        "layers/Monster/s.js", 
-        "layers/Monster/si.js", 
-        "layers/Monster/c.js", 
-        "layers/Monster/g.js", 
-        "layers/Monster/m.js", 
-        "layers/Monster/b.js",
-        "layers/Monster/a.js",
-        "layers/Monster/Town/bank.js",
-        "layers/Monster/Town/blacksmith.js",
-        "layers/Monster/Pit/tunnels.js"
     ],
 	discordName: "The World Tree Server",
 	discordLink: "https://discord.gg/wNJxhxT9QH",
@@ -31,46 +15,12 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2.1",
-	name: "Spacetime Expansion",
+	num: "Directory",
+	name: "Directory",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h2>v0.2.1</h2><br>
-		-Fixed a bug involving a bear, the Wormhole layer's portal image, and a swarm of angry turnips<br><br>
-	<h2>v0.2.0 - Spacetime Expansion</h2><br>
-		-Fixed error with display text overlapping info by removing it<br>
-		(Endgame is at e1e1e1000 points)<br>
-		-Added new Elemental upgrades<br>
-		-Retroactively renamed v0.1.0 to The World Seed from The Beginning Seed<br>
-		-Created Time and Space<br>
-		-Clarified some wordings in the RPG Monster World<br><br>
-	<h2>v0.1.1</h2><br>
-		-Added Void and Aether<br>
-		-Fixed minor errors introduced in testing during previous updates<br><br>
-	<h2>v0.1.0 - The World Seed</h2><br>
-		<h3>Changed from RPG Monster Tree to World Tree, so versions reset</h3><br>
-		-Added Elements and Wormhole<br>
-		-Added Element Upgrades<br><br>
-    <h2>v1.1.0</h2><br>
-        -Added The Pit<br>
-        -Added The Town<br>
-        -Reformatted source code organization<br>
-        -Added Taverns, Banks, Blacksmiths, and Tunnel Diggers<br><br>
-    <h2>v1.0.0 - The First Ascension</h2><br>
-        -Added Breeders<br>
-        -Added Ascensions<br><br>
-	<h2>v0.1.2</h2><br>
-		-Added Mechanics.<br>
-		-Added Mechanic milestones and buyable.<br><br>
-	<h2>v0.1.1</h2><br>
-		-Added Silver milestones.<br>
-		-Added Gold point upgrades.<br>
-		-Added Gold points.<br><br>
-	<h2>v0.1 - The Revolt of The Slimes</h2><br>
-		- Added Slime, Cave, and Silver Upgrades.<br>
-		- Added Baby, Juvenile, Adult, Red, Blue, and Green slimes.<br>
-		- Added Copper points, slime points, and silver points.`
+	`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -92,7 +42,6 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 	let gain = new Decimal(1)
-    gain = player.w.tSec
 	return gain
 }
 
@@ -102,7 +51,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-    //"Endgame is currently at e1e1e1000 Points", "This is probably unachievable"
+    "The repository structure has changed, you may be looking for:", "https://raw.githack.com/EpicBoss42/The-Modding-Tree/world_tree/index.html"
 ]
 
 // Determines when the game "ends"
