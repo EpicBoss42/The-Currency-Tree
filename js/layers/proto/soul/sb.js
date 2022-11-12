@@ -57,11 +57,6 @@ addLayer("p_s_sb", {
             requirementDescription: "1 battery",
             effectDescription: "Multiplies soul gain by 1.15.",
             done() { return player.p_s_sb.points.gte(1) }
-        },
-        1: {
-            requirementDescription: "10 batteries",
-            effectDescription: "idk.",
-            done() { return player.p_s_sb.points.gte(10) }
         }
     }
 })

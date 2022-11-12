@@ -1,5 +1,5 @@
 let modInfo = {
-	name: "The Omnitree [Faithful]",
+	name: "The Omnitree [Modern]",
 	id: "omnitree-f",
 	author: "EpicBoss42",
 	pointsName: "Omnipoints",
@@ -19,10 +19,14 @@ let modInfo = {
 // Set your version in num and name
 let VERSION = {
 	num: "0.1",
-	name: "Random Stuff",
+	name: "Advent of Soul",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h2>v0.1.0: Advent of Soul</h1><br><br>
+		- Created basic structure to allow for further development<br>
+		- Added the Soul Tree<br>
+		- Added Credits<br>
 	`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
@@ -54,7 +58,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-    "All subtrees are as identical to the originals as possible"
+    "All subtrees are fixed, removing bugs, while still keeping as closely as possible to the original"
 ]
 
 // Determines when the game "ends"

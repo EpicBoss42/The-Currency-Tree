@@ -8,7 +8,11 @@ addLayer("p_s_sg", {
     }},
     branches: ["p_s_sb"],
     color: "#FFFFFF",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    requires() {
+        let requirement = new Decimal(10)
+        if (hasUpgrade("p_s_sb", 12)) requirement = requirement.sub(0.1)
+        return requirement
+    }, // Can be a function that takes requirement increases into account
     resource: "soul generators", // Name of prestige currency
     baseResource: "souls", // Name of resource prestige is based on
     baseAmount() {return player.ygg.p_s_points}, // Get the current amount of baseResource

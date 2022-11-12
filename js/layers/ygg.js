@@ -10,7 +10,7 @@ addLayer("ygg", {
         }
     },
     name: "Yggdrasil",
-    color: "#7D56DA",
+    color: "#C0550F",
     resource: "Branches",
     row: 10,
     exponent: 1,
@@ -70,6 +70,14 @@ addLayer("ygg", {
                 ["microtabs", "proto"]
             ],
             unlocked() {return hasUpgrade("ygg", 11)}
+        },
+        "Credits": {
+            content: [
+                ["display-text", function() {
+                    return `Credit for the subtrees goes to the following:<br>
+                    SuperJakeyLKR for <a href = \"https://github.com/superjakeyLKR/The-Soul-Tree\">The Soul Tree</a>`
+                }]
+            ]
         }
     },
     microtabs: {
