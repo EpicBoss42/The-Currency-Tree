@@ -6,9 +6,12 @@ addLayer("p_s_sg", {
         unlocked: true,
 		points: new Decimal(0),
     }},
-    branches: ["p_s_sb"],
     color: "#FFFFFF",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    requires() { 
+        let requirement = new Decimal(10)
+        if (hasUpgrade("p_s_sb", 12)) requirement = requirement.sub(0.1)
+        return requirement
+    }, // Can be a function that takes requirement increases into account
     resource: "soul generators", // Name of prestige currency
     baseResource: "souls", // Name of resource prestige is based on
     baseAmount() {return player.ygg.p_s_points}, // Get the current amount of baseResource
@@ -21,6 +24,8 @@ addLayer("p_s_sg", {
         if (hasUpgrade("p_s_sg", 22)) mult = mult.times(2)
         if (hasUpgrade("p_s_sg", 23)) mult = mult.times(3)
         if (hasUpgrade("p_s_sb", 11)) mult = mult.times(1.2)
+        if (hasUpgrade("p_s_sb", 14)) mult = mult.mul(2)   
+        if (hasUpgrade("p_s_sc", 22)) mult = mult.mul(3) 
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -33,10 +38,26 @@ addLayer("p_s_sg", {
     layerShown(){return true},
     doReset(x) {
         if (x == "p_s_sb") {
+            savedUpgrades = []
+            save = []
+            if (hasUpgrade(this.layer, 25)) {
+                savedUpgrades.push("25")
+                save.push("achievements")
+            }
+            layerDataReset(this.layer, save)
+            player[this.layer].upgrades = savedUpgrades
+        } else if (x == "p_s_sc") {
+            layerDataReset(this.layer)
+        } else if (x == "p_s_mb") {
             layerDataReset(this.layer)
         } else if (x === this.layer) {
             player.ygg.p_s_points = new Decimal(0)
         }
+    },
+    passiveGeneration() {
+        let gain = new Decimal(0)
+        if (hasMilestone("p_s_sb", 1)) gain = gain.add(0.1)
+        return gain
     },
     upgrades: {
         11: {
@@ -89,9 +110,33 @@ addLayer("p_s_sg", {
         },
         23: {
             title: "Ultra-Overclock",
-            description: "Triple both soul generation, soul generator gain and unlocks the first soul battery upgrade.",
+            description: "Triple both soul and soul generator gain, and unlocks the first soul battery upgrade.",
             cost: new Decimal(1000),
             unlocked() { return hasUpgrade("p_s_sg", 22) },           
+        },
+        24: {
+            title: "Soul Recursion",
+            description: "Souls increase soul generation.",
+            cost: new Decimal(25000),
+            unlocked() { return hasUpgrade("p_s_sg", 23) && hasMilestone("p_s_sb", 1)},
+            effect() {
+                let base = new Decimal(player.ygg.p_s_points)
+                base = base.add(1).pow(0.25).log(5).div(3).add(1)
+                return base.max(1)
+            },
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id)) + "x"}
+        },
+        25: {
+            title: "Postmortal Achievements",
+            description: "Your achievements increase Soul Battery gain, and both they and this upgrade are kept on Soul Battery reset.",
+            cost: new Decimal(1000000),
+            unlocked() { return hasUpgrade("p_s_sg", 24) || hasUpgrade(this.layer, this.id)},
+            effect() {
+                let base = new Decimal(player.p_s_sg.achievements.length).add(1)
+                base = base.log(5).add(1)
+                return base.max(1)
+            },
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id)) + "x"}
         }
     },
     achievements: {
@@ -104,6 +149,21 @@ addLayer("p_s_sg", {
             name: "Upgrades, people!",
             done() { return hasUpgrade("p_s_sg", 11) },
             tooltip: "Buy the first upgrade."
+        },
+        13: {
+            name: "Double Duplicate",
+            done() {return hasUpgrade("p_s_sg", 15)},
+            tooltip: "Buy Duplificat-inator."
+        },
+        14: {
+            name: "Finally, some recursion",
+            done() {return hasUpgrade("p_s_sg", 24)},
+            tooltip: "Buy Soul Recursion." 
+        },
+        15: {
+            name: "Batteries for days",
+            done() {return hasUpgrade("p_s_sg", 25) && player.p_s_sb.points.gte(1000)},
+            tooltip: "Buy Postmortal Achievements, then gain over 1,000 Soul Batteries."
         }
     }
 })

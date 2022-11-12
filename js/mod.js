@@ -1,5 +1,5 @@
 let modInfo = {
-	name: "The Omnitree [Faithful]",
+	name: "The Omnitree [Extended]",
 	id: "omnitree-f",
 	author: "EpicBoss42",
 	pointsName: "Omnipoints",
@@ -8,7 +8,9 @@ let modInfo = {
         "tree.js", 
 		"layers/ygg.js",
 		"layers/proto/soul/sg.js",
-		"layers/proto/soul/sb.js"
+		"layers/proto/soul/sb.js",
+		"layers/proto/soul/sc.js",
+		"layers/proto/soul/mb.js"
     ],
 	discordName: "The World Tree Server",
 	discordLink: "https://discord.gg/wNJxhxT9QH",
@@ -18,11 +20,16 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1",
-	name: "Random Stuff",
+	num: "0.1.0",
+	name: "Advent of Soul",
 }
 
-let changelog = `<h1>Changelog:</h1><br>
+let changelog = `<h1>Changelog:</h1><br><br>
+	<h2>v0.1.0: Advent of Soul</h1><br>
+	- Created basic structure to allow for further development<br>
+	- Added the Soul Tree<br>
+	- Greatly expanded the Soul Tree<br>
+	- Added Credits<br>
 	`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
@@ -45,6 +52,7 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 	let gain = new Decimal(0.1)
+	if (hasMilestone("p_s_sb", 2)) gain = gain.mul(new Decimal(2).pow(player.p_s_sb.points.add(1).log(10).floor()))
 	return gain
 }
 
@@ -54,7 +62,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-    "All subtrees are as identical to the originals as possible"
+    "All subtrees have recieved bug fixes (where applicable) and more content has been added"
 ]
 
 // Determines when the game "ends"

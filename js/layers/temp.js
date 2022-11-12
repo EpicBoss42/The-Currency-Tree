@@ -22,7 +22,6 @@ addLayer("", {
         return value
     },
     layerShown() {
-        if (hasUpgrade('m', 12)) return true
         return true
     },    
     upgrades: {

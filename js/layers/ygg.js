@@ -10,7 +10,7 @@ addLayer("ygg", {
         }
     },
     name: "Yggdrasil",
-    color: "#7D56DA",
+    color: "#C0550F",
     resource: "Branches",
     row: 10,
     exponent: 1,
@@ -33,7 +33,7 @@ addLayer("ygg", {
         return new Decimal(1)
     },
     getNextAt() {
-        if (player[this.layer].points < 1) return new Decimal(10)
+        if (player[this.layer].points < 1) return new Decimal(1)
         return new Decimal(1e10)
     },
     canReset() {
@@ -70,6 +70,14 @@ addLayer("ygg", {
                 ["microtabs", "proto"]
             ],
             unlocked() {return hasUpgrade("ygg", 11)}
+        },
+        "Credits": {
+            content: [
+                ["display-text", function() {
+                    return `Credit for the original versions of the subtrees goes to the following:<br>
+                    SuperJakeyLKR for <a href = \"https://github.com/superjakeyLKR/The-Soul-Tree\">The Soul Tree</a>`
+                }]
+            ]
         }
     },
     microtabs: {
@@ -83,7 +91,7 @@ addLayer("ygg", {
                         return "(" + format(player.ygg.p_s_gain) + "/sec)"
                     }],
                     "blank",
-                    ["tree", [["p_s_sg"], ["p_s_sb"]]]
+                    ["tree", [["p_s_sg"], ["p_s_sb"], ["p_s_sc", "p_s_mb"]]]
                     // naming convention is w(orld)_l(ayer)_original
                 ]
             }
@@ -98,15 +106,17 @@ addLayer("ygg", {
         // Soul Tree Generation
         if (hasUpgrade("ygg", 11)) {
             let p_s_gain = new Decimal(1)
-            if (hasUpgrade("p_s_sg", 11)) p_s_gain = p_s_gain.times(2)
-            if (hasUpgrade("p_s_sg", 12)) p_s_gain = p_s_gain.times(upgradeEffect("p_s_sg", 12))
-            if (hasUpgrade("p_s_sg", 14)) p_s_gain = p_s_gain.times(3)
-            if (hasUpgrade("p_s_sg", 15)) p_s_gain = p_s_gain.times(2)
-            if (hasUpgrade("p_s_sg", 21)) p_s_gain = p_s_gain.times(1.5)
-            if (hasUpgrade("p_s_sg", 22)) p_s_gain = p_s_gain.times(1.15)
-            if (hasUpgrade("p_s_sg", 23)) p_s_gain = p_s_gain.times(3)
-            if (hasUpgrade("p_s_sb", 11)) p_s_gain = p_s_gain.times(upgradeEffect("p_s_sb", 11))
-            if (hasMilestone("p_s_sb", 0)) p_s_gain = p_s_gain.times(1.15)
+            if (hasUpgrade("p_s_sg", 11)) p_s_gain = p_s_gain.mul(2)
+            if (hasUpgrade("p_s_sg", 12)) p_s_gain = p_s_gain.mul(upgradeEffect("p_s_sg", 12))
+            if (hasUpgrade("p_s_sg", 14)) p_s_gain = p_s_gain.mul(3)
+            if (hasUpgrade("p_s_sg", 15)) p_s_gain = p_s_gain.mul(2)
+            if (hasUpgrade("p_s_sg", 21)) p_s_gain = p_s_gain.mul(1.5)
+            if (hasUpgrade("p_s_sg", 22)) p_s_gain = p_s_gain.mul(1.15)
+            if (hasUpgrade("p_s_sg", 23)) p_s_gain = p_s_gain.mul(3)
+            if (hasUpgrade("p_s_sg", 24)) p_s_gain = p_s_gain.mul(upgradeEffect("p_s_sg", 24))
+            if (hasUpgrade("p_s_sb", 11)) p_s_gain = p_s_gain.mul(upgradeEffect("p_s_sb", 11))
+            if (hasMilestone("p_s_sb", 0)) p_s_gain = p_s_gain.mul(1.15)
+            if (hasUpgrade("p_s_sc", 22)) p_s_gain = p_s_gain.mul(upgradeEffect("p_s_sc", 22))
             player.ygg.p_s_points = player.ygg.p_s_points.add(p_s_gain.mul(diff))
             player.ygg.p_s_gain = p_s_gain
         }
