@@ -1,12 +1,14 @@
 let modInfo = {
-	name: "World Tree Directory",
-	id: "worlddir",
+	name: "The Omnitree [Faithful]",
+	id: "omnitree-f",
 	author: "EpicBoss42",
 	pointsName: "Omnipoints",
 	modFiles: [
         "layers.js", 
         "tree.js", 
-		"layers/ygg.js"
+		"layers/ygg.js",
+		"layers/proto/soul/sg.js",
+		"layers/proto/soul/sb.js"
     ],
 	discordName: "The World Tree Server",
 	discordLink: "https://discord.gg/wNJxhxT9QH",
@@ -52,7 +54,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-    ""
+    "All subtrees are as identical to the originals as possible"
 ]
 
 // Determines when the game "ends"
