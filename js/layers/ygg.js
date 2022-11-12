@@ -70,6 +70,14 @@ addLayer("ygg", {
                 ["microtabs", "proto"]
             ],
             unlocked() {return hasUpgrade("ygg", 11)}
+        },
+        "Credits": {
+            content: [
+                ["display-text", function() {
+                    return `Credit for the subtrees goes to the following:<br>
+                    SuperJakeyLKR for <a href = \"https://github.com/superjakeyLKR/The-Soul-Tree\">The Soul Tree</a>`
+                }]
+            ]
         }
     },
     microtabs: {

@@ -19,11 +19,15 @@ let modInfo = {
 // Set your version in num and name
 let VERSION = {
 	num: "0.1",
-	name: "Random Stuff",
+	name: "Advent of Soul",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	`
+	<h2>v0.1.0: Advent of Soul</h1><br><br>
+	- Created basic structure to allow for further development<br>
+	- Added the Soul Tree<br>
+	- Added Credits<br>
+`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
