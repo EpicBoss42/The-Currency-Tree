@@ -53,7 +53,9 @@ function addedPlayerData() { return {
 var displayThings = [
     "The repository structure has changed, you may be looking for:", 
 	"<a href = \"https://raw.githack.com/EpicBoss42/The-Modding-Tree/world_tree/index.html\">The World Tree</a>", 
-	"<a href = \"https://raw.githack.com/EpicBoss42/The-Modding-Tree/omnitree/index.html\">The Omnitree</a>"
+	"<a href = \"https://raw.githack.com/EpicBoss42/The-Modding-Tree/omnitree/index.html\">The Omnitree [Faithful]</a>",
+	"<a href = \"https://raw.githack.com/EpicBoss42/The-Modding-Tree/omnitree_modernized/index.html\">The Omnitree [Modern]</a>",
+	"<a href = \"https://raw.githack.com/EpicBoss42/The-Modding-Tree/omnitree_modernized/index.html\">The Omnitree [Extended]</a>"
 ]
 
 // Determines when the game "ends"
