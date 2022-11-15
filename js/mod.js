@@ -8,7 +8,11 @@ let modInfo = {
         "tree.js", 
 		"layers/ygg.js",
 		"layers/proto/soul/sg.js",
-		"layers/proto/soul/sb.js"
+		"layers/proto/soul/sb.js",
+		"layers/proto/partial/pa.js",
+		"layers/proto/partial/wh.js",
+		"layers/proto/partial/a.js",
+		"layers/proto/partial/sa.js"
     ],
 	discordName: "The World Tree Server",
 	discordLink: "https://discord.gg/wNJxhxT9QH",
@@ -18,12 +22,15 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1",
-	name: "Advent of Soul",
+	num: "0.2.0",
+	name: "Partially Updates",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h2>v0.1.0: Advent of Soul</h1><br><br>
+	<h2>v0.2.0: Partially Updated</h1><br>
+	- Added the Partial Tree<br>
+	- Updated Credits to reflect this<br><br>
+	<h2>v0.1.0: Advent of Soul</h1><br>
 	- Created basic structure to allow for further development<br>
 	- Added the Soul Tree<br>
 	- Added Credits<br>
