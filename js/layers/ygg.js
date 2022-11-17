@@ -7,12 +7,12 @@ addLayer("ygg", {
             leafs: new Decimal(0),
             p_s_points: new Decimal(0),
             p_s_gain: new Decimal(0),
-            p_p_points: new Decimal(0),
+            p_p_points: new Decimal(1),
             p_p_gain: new Decimal(0)
         }
     },
     name: "Yggdrasil",
-    color: "#7D56DA",
+    color: "#C0550F",
     resource: "Branches",
     row: 100,
     exponent: 1,

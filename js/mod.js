@@ -22,15 +22,18 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2.0",
+	num: "0.2.1",
 	name: "Partially Updates",
 }
 
-let changelog = `<h1>Changelog:</h1><br>
-	<h2>v0.2.0: Partially Updated</h1><br>
+let changelog = `<h1>Changelog:</h1><br><br>
+	<h3>v0.2.1</h3><br>
+	- Fixed Yggdrasil color<br>
+	- Fixed Partial Points starting at 0<br><br>
+	<h3>v0.2.0: Partially Updated</h3><br>
 	- Added the Partial Tree<br>
 	- Updated Credits to reflect this<br><br>
-	<h2>v0.1.0: Advent of Soul</h1><br>
+	<h3>v0.1.0: Advent of Soul</h3><br>
 	- Created basic structure to allow for further development<br>
 	- Added the Soul Tree<br>
 	- Added Credits<br>
