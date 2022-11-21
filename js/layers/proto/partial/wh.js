@@ -25,7 +25,7 @@ addLayer("p_p_wh", {
     row: 1, 
     doReset(x) {
         if (x === this.layer) {
-            player.ygg.p_p_points = new Decimal(0)
+            player.ygg.p_p_points = new Decimal(1)
         }
     },
     hotkeys: [
