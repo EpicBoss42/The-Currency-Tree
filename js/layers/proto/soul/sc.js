@@ -41,8 +41,11 @@ addLayer("p_s_sc", {
     },    
     update(diff) {
         let calcBase = new Decimal(0)
+        
         if (hasUpgrade(this.layer, 11)) calcBase = calcBase.add(1)
         if (hasUpgrade(this.layer, 12)) calcBase = calcBase.mul(upgradeEffect(this.layer, 12))
+        if (hasUpgrade(this.layer, 13)) calcBase = calcBase.mul(upgradeEffect(this.layer, 13))
+
         player[this.layer].calculations = player[this.layer].calculations.add(calcBase.mul(diff))
         player[this.layer].calcSec = calcBase
     },
@@ -76,6 +79,21 @@ addLayer("p_s_sc", {
             },
             effectDisplay() {return format(upgradeEffect(this.layer, this.id)) + "x"}
         },
+        13: {
+            title: "Solid Soul Drives",
+            description: "Soul Computers increase Soul gain based on calculations.",
+            cost: new Decimal(3),
+            unlocked() {return hasUpgrade(this.layer, 12)},
+            effect() {
+                let base = new Decimal(player[this.layer].points)
+                let mult = new Decimal(player[this.layer].calculations)
+                base = base.add(1).pow(0.6).log(1.2)
+                mult = mult.add(1).pow(0.25).log(3)
+                base = base.mul(mult)
+                return base.add(1).max(1)
+            },
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id)) + "x"}
+        },
         21: {
             title: "Generator Optimization",
             description: "Triple Soul Generator gain.",
@@ -97,6 +115,21 @@ addLayer("p_s_sc", {
                 let base = new Decimal(player[this.layer].calculations)
                 base = base.add(1).pow(0.25).log(2).add(1)
                 return base.max(1)
+            },
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id)) + "x"}
+        },
+        23: {
+            title: "Benchmarking",
+            description: "Unlock Soul Battery achievements, and Soul Battery achievements increase Calculation gain.",
+            cost: new Decimal(250),
+            currencyDisplayName: "Calculations",
+            currencyInternalName: "calculations",
+            currencyLayer: "p_s_sc",
+            unlocked() {return hasUpgrade(this.layer, 11)},
+            effect() {
+                let base = new Decimal(player.p_s_sb.achievements.length).add(1)
+                base = base.pow(0.75)
+                return base.add(1).max(1)
             },
             effectDisplay() {return format(upgradeEffect(this.layer, this.id)) + "x"}
         }

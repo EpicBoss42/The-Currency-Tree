@@ -98,5 +98,19 @@ addLayer("p_s_sb", {
             },
             done() { return player.p_s_sb.points.gte(2500)}
         }
+    },
+    achievements: {
+        11: {
+            name: "Second Start",
+            done() {return player[this.layer].points.gte(1)},
+            tooltip: "Get your first Soul Battery.",
+            unlocked() {return hasUpgrade("p_s_sc", 13)}
+        },
+        12: {
+            name: "More To Come",
+            done() {return hasUpgrade(this.layer, 15)},
+            tooltip: "Unlock Omnibatteries.  More achievements will be added.",
+            unlocked() {return hasUpgrade("p_s_sc", 13)}
+        }
     }
 })
