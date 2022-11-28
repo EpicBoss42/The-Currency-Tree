@@ -35,7 +35,7 @@ addLayer("ygg", {
         return new Decimal(1)
     },
     getNextAt() {
-        if (player[this.layer].points < 1) return new Decimal(10)
+        if (player[this.layer].points < 1) return new Decimal(1)
         return new Decimal(1e10)
     },
     canReset() {
@@ -80,7 +80,7 @@ addLayer("ygg", {
             content: [
                 ["display-text", function() {
                     return `Credit for the subtrees goes to the following:<br>
-                    SuperJakeyLKR for <a href = \"https://github.com/superjakeyLKR/The-Soul-Tree\">The Soul Tree</a>
+                    SuperJakeyLKR for <a href = \"https://github.com/superjakeyLKR/The-Soul-Tree\">The Soul Tree</a><br>
                     jwkloong for <a href = \"https://github.com/jwklong/The-Partial-Tree\">The Partial Tree</a>`
                 }]
             ]
@@ -133,6 +133,7 @@ addLayer("ygg", {
             if (hasUpgrade("p_s_sg", 23)) p_s_gain = p_s_gain.times(3)
             if (hasUpgrade("p_s_sb", 11)) p_s_gain = p_s_gain.times(upgradeEffect("p_s_sb", 11))
             if (hasMilestone("p_s_sb", 0)) p_s_gain = p_s_gain.times(1.15)
+
             player.ygg.p_s_points = player.ygg.p_s_points.add(p_s_gain.mul(diff))
             player.ygg.p_s_gain = p_s_gain
 
@@ -142,8 +143,9 @@ addLayer("ygg", {
             if (hasUpgrade('p_p_pa', 12)) p_p_gain = p_p_gain.times(upgradeEffect('p_p_pa', 12))
             if (hasUpgrade('p_p_pa', 22)) p_p_gain = p_p_gain.times(upgradeEffect('p_p_pa', 22))
             if (hasUpgrade('p_p_wh', 11)) p_p_gain = p_p_gain.times(3)
-            if (inChallenge("p_p_wh", 11)) p_p_gain = p_p_gain.pow(0.33)
-            if (challengeCompletions("p_p_wh", 11) > 0 && !inChallenge("p_p_wh", 11)) p_p_gain = p_p_gain.pow(1.15)
+            if (getClickableState("p_p_wh", 11) == "Active") p_p_gain = p_p_gain.pow(0.33)
+            if (player.p_p_wh.clickable11 > 0 && !(getClickableState("p_p_wh", 11) == "Active")) p_p_gain = p_p_gain.pow(1.15)
+
             player.ygg.p_p_points = player.ygg.p_p_points.add(p_p_gain.mul(diff))
             player.ygg.p_p_gain = p_p_gain
         }

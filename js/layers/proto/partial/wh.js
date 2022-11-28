@@ -6,6 +6,7 @@ addLayer("p_p_wh", {
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
+        clickable11: new Decimal(0)
     }},
     color: "#00ffa6",
     effectDescription() {return "multiplying partial point gain by "+format(player.p_p_wh.points.gte("1") ? new Decimal("1.5").pow(player.p_p_wh.points) : new Decimal("1"))},
@@ -32,6 +33,14 @@ addLayer("p_p_wh", {
         //{key: "w", description: "W: Reset for wholes", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return hasUpgrade("p_p_pa", 33) || player[this.layer].unlocked},
+    tabFormat: [
+        "main-display",
+        "prestige-button",
+        ["display-text", function() {return "You have " + format(player.p_p_pa.points) + " Partial Points"}],
+        "blank",
+        "upgrades",
+        "clickables"
+    ],
     upgrades: {
 	    11: {
 	        title: "Part Part Whole",
@@ -52,6 +61,9 @@ addLayer("p_p_wh", {
 	        title: "Challenged",
         	description: "Unlock a challenge",
          	cost: new Decimal(3),
+            onPurchase() {
+                setClickableState(this.layer, 11, "Inactive")
+            }
        	},
         22: {
 	        title: "Partial+",
@@ -59,22 +71,36 @@ addLayer("p_p_wh", {
          	cost: new Decimal(5),
        	},
     },
-    challenges: {
+    clickables: {
         11: {
-            name: "Exceed",
-            completionLimit: 2,
-            challengeDescription() {return "Points are affected by ^0.33"},
-            unlocked() { return hasUpgrade("p_p_wh", 21) },
-            goalDescription: 'Have Partial Unlock',
-            canComplete() {
-                return hasUpgrade("p_p_pa", 33)
+            title: "Exceed",
+            unlocked() {return hasUpgrade("p_p_wh", 21)},
+            canClick() {
+                if (getClickableState(this.layer, this.id) == "Active") return true
+                if ((getClickableState(this.layer, this.id) == "Inactive") && player[this.layer].clickable11.equals(0)) return true
+                return false
             },
-            rewardEffect() {
-                return challengeCompletions("p_p_wh",11) > 0 ? 1.15 : 1.0;
+            display() {
+                return `
+                Points are affected by ^0.33<br>
+                Goal: Have Partial Unlock<br>
+                Reward: Points are affected by ^1.15<br>
+                Currently: ^` + format(this.effect()) + `<br><br>
+                Currently ` + getClickableState(this.layer, this.id) 
             },
-            rewardDisplay() { return "^"+format(this.rewardEffect()) },
-            countsAs: [], 
-            rewardDescription: "Points are affected by ^1.15",
-        },
-    },
+            effect() {
+                let base = player[this.layer].clickable11
+                base = new Decimal(1).add(base.mul(0.15))
+                return base.max(1)
+            },
+            onClick() {
+                if (getClickableState(this.layer, this.id) == "Active") {
+                    if (hasUpgrade("p_p_pa", 33)) player[this.layer].clickable11 = new Decimal(1)
+                    setClickableState(this.layer, this.id, "Inactive")
+                } else {
+                    setClickableState(this.layer, this.id, "Active")
+                }
+            }
+        }
+    }
 })
