@@ -1,7 +1,0 @@
-addLayer("ygg", {})
-addLayer("p_s_sg", {})
-addLayer("p_s_sb", {})
-addLayer("p_p_pa", {})
-addLayer("p_p_a", {})
-addLayer("p_p_sa", {})
-addLayer("p_p_wh", {})

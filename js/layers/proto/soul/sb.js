@@ -16,9 +16,11 @@ addLayer("p_s_sb", {
     exponent: 0.5,
     gainMult() {  
         mult = new Decimal(1)
-        if (hasUpgrade("p_s_sb", 13)) mult = mult.times(1.75)  
+        if (hasUpgrade("p_s_sb", 13)) mult = mult.times(1.75) 
+        if (hasUpgrade("p_s_sb", 13) && hasUpgrade("p_s_mb", 11)) mult = mult.mul(1.5) 
         if (hasUpgrade("p_s_sg", 25)) mult = mult.mul(upgradeEffect("p_s_sg", 25))   
         if (hasUpgrade("p_s_sb", 14)) mult = mult.mul(2)       
+        if (hasUpgrade("p_s_sb", 14) && hasUpgrade("p_s_mb", 11)) mult = mult.mul(2)
         if (hasUpgrade("p_s_sb", 15)) mult = mult.mul(upgradeEffect("p_s_sb", 15))         
         return mult               
     },
@@ -43,9 +45,11 @@ addLayer("p_s_sb", {
             title: "Battery Power",
             description: "Soul generation scales with the amount of soul batteries you have.",
             cost: new Decimal(1),
-            unlocked() { return hasUpgrade("p_s_sg", 23) || hasMilestone("p_s_sb", 0) },
             effect() {
-                return player[this.layer].points.add(2).pow(0.6)
+                let base = new Decimal(player[this.layer].points)
+                base = base.add(2).pow(0.6)
+                if (hasUpgrade("p_s_mb", 11)) base = base.mul(2.25)
+                return base.max(1)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+ "x" },
         },
@@ -53,29 +57,27 @@ addLayer("p_s_sb", {
             title: "Challenging",
             description: "Generators are slightly cheaper.",
             cost: new Decimal(3),
-            unlocked() { return hasUpgrade("p_s_sb", 11) },
         },
         13: {
             title: "Battery Bulk Buy",
             description: "Battery gain is largely increased.",
             cost: new Decimal(3),
-            unlocked() { return hasUpgrade("p_s_sb", 12) },
         },
         14: {
             title: "Dual Charging",
             description: "Both Soul Generator and Battery gain is doubled.",
             cost: new Decimal(750),
-            unlocked() {return hasUpgrade(this.layer, 13)}
         },
         15: {
             title: "Omnibatteries",
             description: "Your current Omnipoints increase Soul Battery gain.",
             cost: new Decimal(1500),
-            unlocked() {return hasUpgrade(this.layer, 14) && hasAchievement("p_s_sg", 15)},
+            unlocked() {return hasAchievement("p_s_sg", 15)},
             effect() {
                 let base = new Decimal(player.points)
-                base = base.add(1).pow(0.25).log(15).add(1)
-                return base.max(1)
+                base = base.add(1).pow(0.25).log(15)
+                if (hasUpgrade("p_s_mb", 11)) base = base.pow(2)
+                return base.add(1).max(1)
             },
             effectDisplay() {return format(upgradeEffect(this.layer, this.id)) + "x"}
         }
@@ -102,15 +104,15 @@ addLayer("p_s_sb", {
     achievements: {
         11: {
             name: "Second Start",
-            done() {return player[this.layer].points.gte(1)},
+            done() {return player[this.layer].points.gte(1) && hasUpgrade("p_s_sc", 23)},
             tooltip: "Get your first Soul Battery.",
-            unlocked() {return hasUpgrade("p_s_sc", 13)}
+            unlocked() {return hasUpgrade("p_s_sc", 23)}
         },
         12: {
             name: "More To Come",
-            done() {return hasUpgrade(this.layer, 15)},
+            done() {return hasUpgrade(this.layer, 15) && hasUpgrade("p_s_sc", 23)},
             tooltip: "Unlock Omnibatteries.  More achievements will be added.",
-            unlocked() {return hasUpgrade("p_s_sc", 13)}
+            unlocked() {return hasUpgrade("p_s_sc", 23)}
         }
     }
 })

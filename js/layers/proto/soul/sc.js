@@ -14,15 +14,27 @@ addLayer("p_s_sc", {
     symbol: "SC",
     baseResource: "soul batteries",
     baseAmount() { return player.p_s_sb.points },
-    requires() {
+    base() {
         let value = new Decimal(2500)
         value = value.mul(new Decimal(10).pow(player[this.layer].unlockOrder))
         return value
     },
-    base: new Decimal(2500),
-    type: "static",
+    requires() {return tmp.p_s_sc.base},
+    type: "custom",
     increaseUnlockOrder: ["p_s_mb"],
-    exponent: 2,
+    exponent: 0.25,
+    getResetGain() {return new Decimal(1)},
+    getNextAt() {
+        let base = new Decimal(2500)
+        base = base.mul(new Decimal(10).pow(player[this.layer].unlockOrder))
+        base = base.pow(player[this.layer].points.add(1).pow(new Decimal(0.25)))
+        return base
+    },
+    canReset() {return player.p_s_sb.points.gte(tmp.p_s_sc.getNextAt)},
+    prestigeButtonText() {
+        return `Reset for +1 soul computer<br><br>
+        Req: ` + format(tmp.p_s_sc.getNextAt) + " soul batteries"
+    },
     doReset(x) {
         if (x === this.layer) {
             player.ygg.p_s_points = new Decimal(0)
@@ -44,7 +56,7 @@ addLayer("p_s_sc", {
         
         if (hasUpgrade(this.layer, 11)) calcBase = calcBase.add(1)
         if (hasUpgrade(this.layer, 12)) calcBase = calcBase.mul(upgradeEffect(this.layer, 12))
-        if (hasUpgrade(this.layer, 13)) calcBase = calcBase.mul(upgradeEffect(this.layer, 13))
+        if (hasUpgrade(this.layer, 23)) calcBase = calcBase.mul(upgradeEffect(this.layer, 23))
 
         player[this.layer].calculations = player[this.layer].calculations.add(calcBase.mul(diff))
         player[this.layer].calcSec = calcBase
@@ -82,7 +94,7 @@ addLayer("p_s_sc", {
         13: {
             title: "Solid Soul Drives",
             description: "Soul Computers increase Soul gain based on calculations.",
-            cost: new Decimal(3),
+            cost: new Decimal(2),
             unlocked() {return hasUpgrade(this.layer, 12)},
             effect() {
                 let base = new Decimal(player[this.layer].points)
@@ -129,7 +141,7 @@ addLayer("p_s_sc", {
             effect() {
                 let base = new Decimal(player.p_s_sb.achievements.length).add(1)
                 base = base.pow(0.75)
-                return base.add(1).max(1)
+                return base.max(1)
             },
             effectDisplay() {return format(upgradeEffect(this.layer, this.id)) + "x"}
         }

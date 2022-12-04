@@ -10,6 +10,7 @@ addLayer("p_s_sg", {
     requires() { 
         let requirement = new Decimal(10)
         if (hasUpgrade("p_s_sb", 12)) requirement = requirement.sub(0.1)
+        if (hasUpgrade("p_s_sb", 12) && hasUpgrade("p_s_mb", 11)) requirement = requirement.sub(0.4)
         return requirement
     }, // Can be a function that takes requirement increases into account
     resource: "soul generators", // Name of prestige currency
@@ -19,13 +20,16 @@ addLayer("p_s_sg", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade("p_s_sb", 12)) mult = mult.mul(1.1)
+        if (hasUpgrade("p_s_sb", 12) && hasUpgrade("p_s_mb", 11)) mult = mult.mul(1.1)
         if (hasUpgrade("p_s_sg", 13)) mult = mult.times(upgradeEffect("p_s_sg", 13))
         if (hasUpgrade("p_s_sg", 15)) mult = mult.times(2)
         if (hasUpgrade("p_s_sg", 22)) mult = mult.times(2)
         if (hasUpgrade("p_s_sg", 23)) mult = mult.times(3)
-        if (hasUpgrade("p_s_sb", 11)) mult = mult.times(1.2)
+        if (hasMilestone("p_s_sb", 0)) mult = mult.times(1.15)
         if (hasUpgrade("p_s_sb", 14)) mult = mult.mul(2)   
-        if (hasUpgrade("p_s_sc", 22)) mult = mult.mul(3) 
+        if (hasUpgrade("p_s_sb", 14) && hasUpgrade("p_s_mb", 11)) mult = mult.mul(2)
+        if (hasUpgrade("p_s_sc", 21)) mult = mult.mul(3) 
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -72,8 +76,7 @@ addLayer("p_s_sg", {
             effect() {
                 return player[this.layer].points.add(1).pow(0.5)
             },
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+ "x" },
-            unlocked() { return hasUpgrade("p_s_sg", 11) },         
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+ "x" },    
         },
         13: {
             title: "Empowering",
@@ -82,43 +85,37 @@ addLayer("p_s_sg", {
             effect() {
                 return player.ygg.p_s_points.add(1).pow(0.15)
             },
-            unlocked() { return hasUpgrade("p_s_sg", 12) },
         },
         14: {
             title: "Overclock",
             description: "Triples soul generation.",
             cost: new Decimal(7),
-            unlocked() { return hasUpgrade("p_s_sg", 13) },
         },
         15: {
             title: "Duplificat-inator",
             description: "Doubles both soul generation and soul generator gain.",
             cost: new Decimal(20),
-            unlocked() { return hasUpgrade("p_s_sg", 14) },
         },
         21: {
             title: "Second Circle",
             description: "Gain access to a new layer, and add a x1.5 modifier to soul gain.",
             cost: new Decimal(50),
-            unlocked() { return hasUpgrade("p_s_sg", 15) },
         },
         22: {
             title: "Tax Cuts",
             description: "Halves soul generator cost, and gives them a small boost.",
             cost: new Decimal(150),
-            unlocked() { return hasUpgrade("p_s_sg", 21) },
         },
         23: {
             title: "Ultra-Overclock",
             description: "Triple both soul and soul generator gain, and unlocks the first soul battery upgrade.",
-            cost: new Decimal(1000),
-            unlocked() { return hasUpgrade("p_s_sg", 22) },           
+            cost: new Decimal(1000),         
         },
         24: {
             title: "Soul Recursion",
             description: "Souls increase soul generation.",
             cost: new Decimal(25000),
-            unlocked() { return hasUpgrade("p_s_sg", 23) && hasMilestone("p_s_sb", 1)},
+            unlocked() { return hasMilestone("p_s_sb", 1)},
             effect() {
                 let base = new Decimal(player.ygg.p_s_points)
                 base = base.add(1).pow(0.25).log(5).div(3).add(1)
@@ -130,7 +127,7 @@ addLayer("p_s_sg", {
             title: "Postmortal Achievements",
             description: "Your achievements increase Soul Battery gain, and both they and this upgrade are kept on Soul Battery reset.",
             cost: new Decimal(1000000),
-            unlocked() { return hasUpgrade("p_s_sg", 24) || hasUpgrade(this.layer, this.id)},
+            unlocked() {return hasMilestone("p_s_sb", 1) || hasUpgrade(this.layer, this.id)},
             effect() {
                 let base = new Decimal(player.p_s_sg.achievements.length).add(1)
                 base = base.log(5).add(1)

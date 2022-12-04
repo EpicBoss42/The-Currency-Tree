@@ -78,7 +78,7 @@ addLayer("p_p_pa", {
             cost: new Decimal(125),
             effect() {
                 var gain = player.ygg.p_p_points.add(1).pow(0.2)
-                if (hasUpgrade('p_p_pa', 23)) gain = gain.times(upgradeEffect('pa', 23))
+                if (hasUpgrade('p_p_pa', 23)) gain = gain.times(upgradeEffect('p_p_pa', 23))
                 return gain
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
