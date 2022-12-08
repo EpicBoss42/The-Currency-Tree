@@ -14,7 +14,8 @@ let modInfo = {
 		"layers/proto/partial/pa.js",
 		"layers/proto/partial/wh.js",
 		"layers/proto/partial/a.js",
-		"layers/proto/partial/sa.js"
+		"layers/proto/partial/sa.js",
+		"layers/proto/currency/cc.js"
     ],
 	discordName: "The World Tree Server",
 	discordLink: "https://discord.gg/wNJxhxT9QH",
@@ -24,11 +25,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2.0",
+	num: "0.2.1",
 	name: "Partially Updated",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3>v0.2.1</h3><br>
+		Added the start of Copper Coins<br><br>
 	<h3>v0.2.0 - Partially Updated</h3><br>
 	  Added the Partial Tree<br>
 	  Updated Credits<br>

@@ -8,7 +8,9 @@ addLayer("ygg", {
             p_s_points: new Decimal(0),
             p_s_gain: new Decimal(0),
             p_p_points: new Decimal(1),
-            p_p_gain: new Decimal(0)
+            p_p_gain: new Decimal(0),
+            p_c_points: new Decimal(0),
+            p_c_gain: new Decimal(0)
         }
     },
     name: "Yggdrasil",
@@ -109,6 +111,18 @@ addLayer("ygg", {
                     "blank",
                     ["tree", [["p_p_sa", "blank", "blank", "p_p_a"], ["p_p_pa"], ["p_p_wh"]]]
                 ]
+            },
+            Currency: {
+                content: [
+                    ["display-text", function() {
+                        return "You have " + format(player.ygg.p_c_points) + " Copper Points"
+                    }],
+                    ["display-text", function() {
+                        return "(" + format(player.ygg.p_c_gain) + "/sec)"
+                    }],
+                    "blank",
+                    ["tree", [["p_c_cc"]]]
+                ]
             }
         }
     },
@@ -147,6 +161,15 @@ addLayer("ygg", {
             if (hasUpgrade("p_p_wh", 23)) p_p_gain = p_p_gain.pow(1.25)
             player.ygg.p_p_points = player.ygg.p_p_points.add(p_p_gain.mul(diff))
             player.ygg.p_p_gain = p_p_gain
+
+            let p_c_gain = new Decimal(1)
+            
+            if (hasUpgrade("p_c_cc", 11)) p_c_gain = p_c_gain.mul(upgradeEffect("p_c_cc", 11))
+            if (hasUpgrade("p_c_cc", 12)) p_c_gain = p_c_gain.mul(2)
+            if (hasUpgrade("p_c_cc", 14)) p_c_gain = p_c_gain.mul(upgradeEffect("p_c_cc", 14))
+
+            player.ygg.p_c_points = player.ygg.p_c_points.add(p_c_gain.mul(diff))
+            player.ygg.p_c_gain = p_c_gain
         }
     },
     upgrades: {
