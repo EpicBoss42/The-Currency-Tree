@@ -7,16 +7,16 @@ addLayer("ygg", {
             leafs: new Decimal(0),
             p_s_points: new Decimal(0),
             p_s_gain: new Decimal(0),
-            p_p_points: new Decimal(1),
-            p_p_gain: new Decimal(0),
             p_c_points: new Decimal(0),
-            p_c_gain: new Decimal(0)
+            p_c_gain: new Decimal(0),
+            p_g_points: new Decimal(0),
+            p_g_gain: new Decimal(0)
         }
     },
     name: "Yggdrasil",
     color: "#C0550F",
     resource: "Branches",
-    row: 10,
+    row: 100,
     exponent: 1,
     baseResource: "Omnipoints",
     baseAmount() { return player.points },
@@ -80,9 +80,16 @@ addLayer("ygg", {
                 ["display-text", function() {
                     return `Credit for the original versions of the subtrees goes to the following:<br>
                     SuperJakeyLKR for <a href = \"https://github.com/superjakeyLKR/The-Soul-Tree\">The Soul Tree</a><br>
-                    jwkloong for <a href = \"https://github.com/jwklong/The-Partial-Tree\">The Partial Tree</a>`
+                    ChatGPT for the base of the GPTree, expanded by myself<br><br>
+                    My own personal trees: The Currency Tree`
                 }]
             ]
+        },
+        "Tree Resets": {
+            content: [
+                ["tree", [["p_s"], ["p_c"], ["p_g"]]]
+            ],
+            unlocked() {return hasUpgrade("ygg", 12)}
         }
     },
     microtabs: {
@@ -100,20 +107,9 @@ addLayer("ygg", {
                     // naming convention is w(orld)_l(ayer)_original
                 ]
             },
-            Partial: {
-                content: [
-                    ["display-text", function() {
-                        return "You have " + format(player.ygg.p_p_points) + " Points"
-                    }],
-                    ["display-text", function() {
-                        return "(" + format(player.ygg.p_p_gain) + "/sec)"
-                    }],
-                    "blank",
-                    ["tree", [["p_p_sa", "blank", "blank", "p_p_a"], ["p_p_pa"], ["p_p_wh"]]]
-                ]
-            },
             Currency: {
                 content: [
+                    ["display-text", "Balanced until third row of Copper Coin Upgrades"],
                     ["display-text", function() {
                         return "You have " + format(player.ygg.p_c_points) + " Copper Points"
                     }],
@@ -121,7 +117,19 @@ addLayer("ygg", {
                         return "(" + format(player.ygg.p_c_gain) + "/sec)"
                     }],
                     "blank",
-                    ["tree", [["p_c_cc"]]]
+                    ["tree", [["p_c_cc"], ["p_c_sp"]]]
+                ]
+            },
+            GPTree: {
+                content: [
+                    ["display-text", function() {
+                        return "You have " + format(player.ygg.p_g_points) + " Comfort"
+                    }],
+                    ["display-text", function() {
+                        return "(" + format(player.ygg.p_g_gain) + "/sec)"
+                    }],
+                    "blank",
+                    ["tree", [["p_g_hl"]]]
                 ]
             }
         }
@@ -150,26 +158,29 @@ addLayer("ygg", {
             player.ygg.p_s_points = player.ygg.p_s_points.add(p_s_gain.mul(diff))
             player.ygg.p_s_gain = p_s_gain
 
-            let p_p_gain = new Decimal(0)
-            if (hasUpgrade('p_p_pa', 11)) p_p_gain = p_p_gain.add(1)
-            if (hasUpgrade('p_p_pa', 21)) p_p_gain = p_p_gain.add(2)
-            if (hasUpgrade('p_p_pa', 12)) p_p_gain = p_p_gain.times(upgradeEffect('p_p_pa', 12))
-            if (hasUpgrade('p_p_pa', 22)) p_p_gain = p_p_gain.times(upgradeEffect('p_p_pa', 22))
-            if (hasUpgrade('p_p_wh', 11)) p_p_gain = p_p_gain.times(3)
-            if (getClickableState("p_p_wh", 11) == "Active") p_p_gain = p_p_gain.pow(0.33)
-            if (player.p_p_wh.clickable11 > 0 && !(getClickableState("p_p_wh", 11) == "Active")) p_p_gain = p_p_gain.pow(1.15)
-            if (hasUpgrade("p_p_wh", 23)) p_p_gain = p_p_gain.pow(1.25)
-            player.ygg.p_p_points = player.ygg.p_p_points.add(p_p_gain.mul(diff))
-            player.ygg.p_p_gain = p_p_gain
-
             let p_c_gain = new Decimal(1)
             
             if (hasUpgrade("p_c_cc", 11)) p_c_gain = p_c_gain.mul(upgradeEffect("p_c_cc", 11))
             if (hasUpgrade("p_c_cc", 12)) p_c_gain = p_c_gain.mul(2)
             if (hasUpgrade("p_c_cc", 14)) p_c_gain = p_c_gain.mul(upgradeEffect("p_c_cc", 14))
+            if (hasUpgrade("p_c_cc", 22)) p_c_gain = p_c_gain.mul(upgradeEffect("p_c_cc", 22))
+            if (hasMilestone("p_c_sp", 1)) p_c_gain = p_c_gain.mul(tmp.p_c_sp.milestoneEffects[1].add(1))
 
             player.ygg.p_c_points = player.ygg.p_c_points.add(p_c_gain.mul(diff))
             player.ygg.p_c_gain = p_c_gain
+
+            let p_g_gain = new Decimal(1)
+
+            if (hasUpgrade("p_g_hl", 11)) p_g_gain = p_g_gain.mul(upgradeEffect("p_g_hl", 11))
+            if (hasUpgrade("p_g_hl", 12)) p_g_gain = p_g_gain.mul(upgradeEffect("p_g_hl", 12))
+            if (hasUpgrade("p_g_hl", 13)) p_g_gain = p_g_gain.mul(5)
+            if (hasUpgrade("p_g_hl", 14)) p_g_gain = p_g_gain.mul(upgradeEffect("p_g_hl", 14))
+            if (hasUpgrade("p_g_hl", 15)) p_g_gain = p_g_gain.mul(10)
+            if (hasUpgrade("p_g_hl", 41)) p_g_gain = p_g_gain.mul(1.1)    
+            if (hasUpgrade("p_g_hl", 42)) p_g_gain = p_g_gain.mul(1.25)
+
+            player.ygg.p_g_points = player.ygg.p_g_points.add(p_g_gain.mul(diff))
+            player.ygg.p_g_gain = p_g_gain
         }
     },
     upgrades: {
@@ -177,6 +188,14 @@ addLayer("ygg", {
             title: "First World",
             description: "Unlock the first world for exploration",
             cost: new Decimal(25),
+            currencyDisplayName: "Leaves",
+            currencyInternalName: "leaves",
+            currencyLayer: "ygg"
+        },
+        12: {
+            title: "Falling Leaves",
+            description: "Double Omnipoints gain and unlock the ability to reset individual trees",
+            cost: new Decimal(100),
             currencyDisplayName: "Leaves",
             currencyInternalName: "leaves",
             currencyLayer: "ygg"

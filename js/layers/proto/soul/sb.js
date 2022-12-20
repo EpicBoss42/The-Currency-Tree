@@ -36,6 +36,9 @@ addLayer("p_s_sb", {
             layerDataReset(this.layer)
         } else if (x === this.layer) {
             player.ygg.p_s_points = new Decimal(0)
+        } else if (x == "p_s") {
+            layerDataReset(this.layer)
+            player[this.layer].unlocked = false
         }
     },
     row: 1,

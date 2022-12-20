@@ -37,6 +37,9 @@ addLayer("p_s_mb", {
     doReset(x) {
         if (x === this.layer) {
             player.ygg.p_s_points = new Decimal(0)
+        } else if (x == "p_s") {
+            layerDataReset(this.layer)
+            player[this.layer].unlocked = false
         }
     },
     gainMult() {
