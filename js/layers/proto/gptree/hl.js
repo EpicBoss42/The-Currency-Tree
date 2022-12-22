@@ -101,8 +101,7 @@ addLayer("p_g_hl", {
                     return "You have " + format(player.ygg.p_g_points) + " Comfort"
                 }],
                 "blank",
-                ["display-text", "NYI, Sorry"],
-                // ["buyables", ["1"]]
+                ["buyables", ["2"]]
             ],
             unlocked() {return hasUpgrade("p_g_hl", 23)}
         },
@@ -116,7 +115,7 @@ addLayer("p_g_hl", {
                     return "Clipped Rainbow Roots: " + format(player[this.layer].herbs.rainRoots)
                 }],
                 ["display-text", function() {
-                    if (getBuyableAmount(this.layer, 11).lt(7)) return ""
+                    if (getBuyableAmount(this.layer, 11).lt(5)) return ""
                     if (hasUpgrade(this.layer, 52)) return "Stardust Grains: "  + format(player[this.layer].herbs.starGrain) + ", giving a " + format(tmp.p_g_hl.herbEffects[1]) + "x boost to Seed gain"
                     return "Stardust Grains: " + format(player[this.layer].herbs.starGrain)
                 }],
@@ -174,8 +173,11 @@ addLayer("p_g_hl", {
         let moonSprout = new Decimal(player[this.layer].herbs.moonSprout)
 
         rainRoots = rainRoots.add(1).pow(0.1).log(5).add(1)
+        rainRoots = rainRoots.add(buyableEffect(this.layer, 21)[0])
         starGrain = starGrain.add(1).pow(0.15).log(5.5).add(1)
+        starGrain = starGrain.add(buyableEffect(this.layer, 21)[1])
         moonSprout = moonSprout.add(1).pow(0.05).log(6)
+        moonSprout = moonSprout.add(buyableEffect(this.layer, 21)[2])
 
         return [rainRoots, starGrain, moonSprout]
     },
@@ -237,7 +239,7 @@ addLayer("p_g_hl", {
         23: {
             title: "Gourmet Kitchen",
             description: "A state-of-the-art kitchen to whip up delicious meals and snacks to keep your idle empire running smoothly.",
-            cost: new Decimal(10000)
+            cost: new Decimal(250000)
         },
         31: {
             title: "Books of Knowledge",
@@ -419,7 +421,7 @@ addLayer("p_g_hl", {
                 player[this.layer].seeds = player[this.layer].seeds.sub(this.cost().mul(num))
                 addBuyables(this.layer, this.id, num)
             },
-            unlocked() {return getBuyableAmount(this.layer, 11).gte(7)}
+            unlocked() {return getBuyableAmount(this.layer, 11).gte(5)}
         },
         13: {
             title: "Moonbean",
@@ -452,6 +454,42 @@ addLayer("p_g_hl", {
                 addBuyables(this.layer, this.id, num)
             },
             unlocked() {return getBuyableAmount(this.layer, 12).gte(5)}
+        },
+        21: {
+            title: "Rainbow Sprout Salad",
+            cost(x) {
+                let mul = new Decimal(x).add(1)
+                let bRoot = new Decimal(0.25)
+                let bGrain = new Decimal(0.25)
+                let bSprout = new Decimal(1)
+                mul = mul.pow(1.2).mul(1.25)
+                return [bRoot.mul(mul), bGrain.mul(mul), bSprout.mul(mul)]
+            },
+            display() {
+                return `
+                A light salad containing Clipped Rainbow Roots, Stardust Grains, and Moonsprouts.  Combining them in this way appears to increase their effects.<br>
+                You have made: ` + format(getBuyableAmount(this.layer, this.id)) + `<br>
+                The next one requires ` + format(this.cost()[0]) + " Roots, " + format(this.cost()[1]) + " Grains, and " + format(this.cost()[2]) + ` Sprouts.<br>
+                Current Effects: +` + format(buyableEffect(this.layer, this.id)[0]) + " bonus to Roots, +" + format(buyableEffect(this.layer, this.id)[1]) + " bonus to Grain, and +" + format(buyableEffect(this.layer, this.id)[2]) + " bonus to Sprouts."
+            },
+            effect(x) {
+                let mult = new Decimal(x)
+                let root = new Decimal(tmp.p_g_hl.herbEffects[0]).pow(0.5)
+                let grain = new Decimal(tmp.p_g_hl.herbEffects[1]).pow(0.5)
+                let sprout = new Decimal(tmp.p_g_hl.herbEffects[2]).pow(0.5)
+                mult = mult.add(1).log(5).mul(0.1)
+                return [root.mul(mult), grain.mul(mult), sprout.mul(mult)]
+            },
+            canAfford() {
+                return player[this.layer].herbs.rainRoots.gte(this.cost()[0]) && player[this.layer].herbs.starGrain.gte(this.cost()[1]) && player[this.layer].herbs.moonSprout.gte(this.cost()[2])
+            },
+            buy() {
+                let num = new Decimal(1)
+                player[this.layer].herbs.rainRoots = player[this.layer].herbs.rainRoots.sub(this.cost()[0].mul(num))
+                player[this.layer].herbs.starGrain = player[this.layer].herbs.starGrain.sub(this.cost()[1].mul(num))
+                player[this.layer].herbs.moonSprout = player[this.layer].herbs.moonSprout.sub(this.cost()[2].mul(num))
+                addBuyables(this.layer, this.id, num)
+            },
         }
     }
 })

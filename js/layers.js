@@ -5,6 +5,7 @@ addLayer("p_s_sc", {})
 addLayer("p_s_mb", {})
 addLayer("p_c_cc", {})
 addLayer("p_c_sp", {})
+addLayer("p_c_ba", {})
 addLayer("p_g_hl", {})
 
 addLayer("p_s", {

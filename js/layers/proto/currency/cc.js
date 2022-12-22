@@ -9,7 +9,7 @@ addLayer("p_c_cc", {
     resource: "Copper Coins",
     row: 1,
     passiveGeneration() {
-        if (hasMilestone("p_c_sp", 0)) return tmp.p_c_sp.milestoneEffects[0]
+        if (hasMilestone("p_c_sp", 0)) return tmp.p_c_sp.milestoneEffects[1]
     },
     symbol: "CC",
     baseResource: "Copper Points",
@@ -27,6 +27,8 @@ addLayer("p_c_cc", {
         if (hasUpgrade("p_c_cc", 21)) value = value.mul(upgradeEffect("p_c_cc", 21))
         if (hasUpgrade(this.layer, 33)) value = value.mul(upgradeEffect(this.layer, 33))
         if (hasUpgrade("p_c_sp", 11)) value = value.mul(2)
+        if (hasUpgrade("p_c_ba", 11)) value = value.mul(0.75)
+        value = value.mul(buyableEffect("p_c_ba", 11))
         return value
     },
     gainExp() {
@@ -49,6 +51,12 @@ addLayer("p_c_cc", {
             currentUpgrades.forEach(function(x) {
                 if (hasUpgrade("p_c_sp", 13) && new Decimal(x).lt(30)) savedUpgrades.push(x)
                 if (hasMilestone("p_c_sp", 3) && new Decimal(x).lt(40) && new Decimal(x).gte(30)) savedUpgrades.push(x)
+            })
+            layerDataReset(this.layer)
+            player[this.layer].upgrades = savedUpgrades
+        } else if (x == "p_c_ba") {
+            currentUpgrades.forEach(function(x) {
+                if (hasAchievement("p_c_ba", 11)) savedUpgrades.push(x)
             })
             layerDataReset(this.layer)
             player[this.layer].upgrades = savedUpgrades
@@ -90,12 +98,12 @@ addLayer("p_c_cc", {
         },
         21: {
             title: "Pure Copper",
-            description: "Copper Points increase Copper Coin game",
+            description: "Copper Points increase Copper Coin gain",
             cost: new Decimal(50),
             effect() {
                 let base = new Decimal(player.ygg.p_c_points)
                 base = base.add(1).div(2).pow(0.4).log(2)
-                if (hasUpgrade(this.layer, 31)) base = new Decimal(1.1).pow(base)
+                if (hasUpgrade(this.layer, 31)) base = new Decimal(1.5).pow(base)
                 base = base.add(1)
                 return base.max(1)
             },
@@ -147,7 +155,7 @@ addLayer("p_c_cc", {
         32: {
             title: "Sudden Inflation",
             description: "Raises Copper Coin gain to ^1.1",
-            cost: new Decimal(100000),
+            cost: new Decimal(500000),
             unlocked() {return hasUpgrade("p_c_sp", 13) && hasUpgrade(this.layer, 24)}
         },
         33: {
@@ -164,8 +172,8 @@ addLayer("p_c_cc", {
         },
         34: {
             title: "Coin Storage",
-            description: "Unlocks the Banking layer (NYI) and doubles Silver Point gain",
-            cost: new Decimal("1e12"),
+            description: "Unlocks the Banking layer and doubles Silver Point gain",
+            cost: new Decimal("1e9"),
             unlocked() {return hasUpgrade("p_c_sp", 13) && hasUpgrade(this.layer, 24)}
         }
     },

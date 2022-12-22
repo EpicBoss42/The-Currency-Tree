@@ -117,7 +117,7 @@ addLayer("ygg", {
                         return "(" + format(player.ygg.p_c_gain) + "/sec)"
                     }],
                     "blank",
-                    ["tree", [["p_c_cc"], ["p_c_sp"]]]
+                    ["tree", [["p_c_cc"], ["p_c_sp", "p_c_ba"]]]
                 ]
             },
             GPTree: {
@@ -164,7 +164,7 @@ addLayer("ygg", {
             if (hasUpgrade("p_c_cc", 12)) p_c_gain = p_c_gain.mul(2)
             if (hasUpgrade("p_c_cc", 14)) p_c_gain = p_c_gain.mul(upgradeEffect("p_c_cc", 14))
             if (hasUpgrade("p_c_cc", 22)) p_c_gain = p_c_gain.mul(upgradeEffect("p_c_cc", 22))
-            if (hasMilestone("p_c_sp", 1)) p_c_gain = p_c_gain.mul(tmp.p_c_sp.milestoneEffects[1].add(1))
+            if (hasMilestone("p_c_sp", 1)) p_c_gain = p_c_gain.mul(tmp.p_c_sp.milestoneEffects[2].add(1))
 
             player.ygg.p_c_points = player.ygg.p_c_points.add(p_c_gain.mul(diff))
             player.ygg.p_c_gain = p_c_gain

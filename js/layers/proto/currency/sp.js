@@ -18,8 +18,9 @@ addLayer("p_c_sp", {
     exponent: 0.25,
     gainMult() {
         let value = new Decimal(1)
-        if (hasMilestone("p_c_sp", 2)) value = value.mul(new Decimal(tmp.p_c_sp.milestoneEffects[2]).add(1))
+        if (hasMilestone("p_c_sp", 2)) value = value.mul(new Decimal(tmp.p_c_sp.milestoneEffects[3]).add(1))
         if (hasUpgrade("p_c_cc", 34)) value = value.mul(2)
+        if (hasUpgrade("p_c_ba", 11)) value = value.mul(1.5)
         return value
     },
     gainExp() {
@@ -30,8 +31,16 @@ addLayer("p_c_sp", {
         return true
     },
     milestoneEffects() {
+        let cap1 = new Decimal(10)
+        if (hasUpgrade("p_c_ba", 12)) cap1 = cap1.add(5)
+        if (hasAchievement("p_c_ba", 12)) cap1 = cap1.mul(buyableEffect(this.layer, 12))
+
         let mMod = new Decimal(player[this.layer].points)
         if (hasUpgrade(this.layer, 12)) mMod = new Decimal(player[this.layer].total).mul(upgradeEffect(this.layer, 12))
+
+        if (mMod.gt(cap1)) mMod = mMod.sub(cap1).pow(0.25).add(cap1)
+
+
         let base0 = new Decimal(0.05)
         let base1 = new Decimal(0.25)
         let base2 = new Decimal(0.1)
@@ -39,7 +48,7 @@ addLayer("p_c_sp", {
         base1 = base1.mul(mMod)
         base2 = base2.mul(mMod)
 
-        let result = [base0, base1, base2]
+        let result = [mMod, base0, base1, base2]
         return result
     }, 
     doReset(x) {
@@ -51,6 +60,25 @@ addLayer("p_c_sp", {
             player[this.layer].total = new Decimal(0)
         }
     },
+    tabFormat: [
+            "main-display",
+            "prestige-button",
+            ["display-text", function() {
+                return "You have " + format(player.p_c_cc.points) + " Copper Coins"
+            }],
+            ["display-text", function() {
+                return "You have made a total of " + format(player[this.layer].total) + " Silver Points"
+            }],
+            "blank",
+            "milestones",
+            ["display-text", function() {
+                return "Current Milestone Base: " + format(tmp.p_c_sp.milestoneEffects[0])
+            }],
+            "blank",
+            "buyables",
+            "blank",
+            "upgrades"
+    ],
     upgrades: {
         11: {
             title: "Mirrored Coins",
@@ -78,21 +106,21 @@ addLayer("p_c_sp", {
         0: {
             requirementDescription: "1 Silver Point",
             effectDescription() { 
-                return "Gains 5% of Copper Coin gain on reset each second for each Silver Point<br><br>Currently: " + format(tmp.p_c_sp.milestoneEffects[0].mul(100)) + "%"
+                return "Gains 5% of Copper Coin gain on reset each second for each Silver Point<br><br>Currently: " + format(tmp.p_c_sp.milestoneEffects[1].mul(100)) + "%"
             },
             done() {return player[this.layer].points.gte(1)}
         },
         1: {
             requirementDescription: "5 Silver Points",
             effectDescription() {
-                return "Increases Copper Point gain by 25% for each Silver Point<br><br>Currently: +" + format(tmp.p_c_sp.milestoneEffects[1].mul(100)) + "%"
+                return "Increases Copper Point gain by 25% for each Silver Point<br><br>Currently: +" + format(tmp.p_c_sp.milestoneEffects[2].mul(100)) + "%"
             },
             done() {return player[this.layer].points.gte(5)}
         },
         2: {
             requirementDescription: "10 Silver Points",
             effectDescription() {
-                return "Increases Silver Point gain by 10% for each Silver Point<br><br>Currently: +" + format(tmp.p_c_sp.milestoneEffects[2].mul(100)) + "%"
+                return "Increases Silver Point gain by 10% for each Silver Point<br><br>Currently: +" + format(tmp.p_c_sp.milestoneEffects[3].mul(100)) + "%"
             },
             done() {return player[this.layer].points.gte(10)}
         },
@@ -110,7 +138,7 @@ addLayer("p_c_sp", {
             cost(x) {
                 let base = new Decimal(2)
                 base = base.mul(x.add(1)).pow(1.5).floor()
-                if (new Decimal(x).gte(15)) base = base.pow(2.5)
+                if (new Decimal(x).gte(15)) base = base.pow(1.5)
                 if (new Decimal(x).gte(100)) base = base.pow(base)
                 return base
             },
@@ -130,6 +158,37 @@ addLayer("p_c_sp", {
             },
             unlocked() {
                 return hasUpgrade(this.layer, 12)
+            },
+            buy() {
+                let amt = new Decimal(1)
+                player[this.layer].points = player[this.layer].points.sub(this.cost().mul(amt))
+                addBuyables(this.layer, this.id, amt)
+            }
+        },
+        12: {
+            title: "End Of Time",
+            cost(x) {
+                let base = new Decimal(2500)
+                base = base.mul(x.add(1).pow(2)).floor()
+                if (new Decimal(x).gte(10)) base = base.pow(1.5)
+                return base
+            },
+            effect(x) {
+                let base = new Decimal(x)
+                base = base.add(1).pow(0.5).log(3)
+                return base.add(1)
+            },
+            display() {
+                return `Raises the first Silver Milestone base cap<br>
+                You own: ` + format(getBuyableAmount(this.layer, this.id)) + ` Ends of Time<br>
+                Cost of the next one is ` + format(this.cost()) + ` Silver Points<br>
+                Currently: ` + format(buyableEffect(this.layer, this.id)) + "x"
+            },
+            canAfford() {
+                return player[this.layer].points.gte(this.cost())
+            },
+            unlocked() {
+                return hasAchievement("p_c_ba", 12)
             },
             buy() {
                 let amt = new Decimal(1)

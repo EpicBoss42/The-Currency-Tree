@@ -13,6 +13,7 @@ let modInfo = {
 		"layers/proto/soul/mb.js",
 		"layers/proto/currency/cc.js",
 		"layers/proto/currency/sp.js",
+		"layers/proto/currency/ba.js",
 		"layers/proto/gptree/hl.js"
     ],
 	discordName: "The World Tree Server",
@@ -23,11 +24,16 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2.3",
+	num: "0.2.4",
 	name: "Partially Updated",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3>v0.2.4</h3><br>
+		Added Banks in the Currency Tree<br>
+		Fixed the Copper-Silver Inflation issue<br>
+		Added a new Silver buyable<br>
+		Added a new Recipe to the Home Layer<br><br>
 	<h3>v0.2.3</h3><br>
 		Added the GPTree Home Layer<br>
 		Added the first three Seeds and first few knowledge upgrades to the Home Layer<br>
