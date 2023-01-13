@@ -7,6 +7,9 @@ let modInfo = {
         "layers.js", 
         "tree.js", 
 		"layers/ygg.js",
+		"layers/meta/soul.js",
+		"layers/meta/currency.js",
+		"layers/meta/gpt.js",
 		"layers/proto/soul/sg.js",
 		"layers/proto/soul/sb.js",
 		"layers/proto/soul/sc.js",
@@ -24,33 +27,38 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2.4",
+	num: "0.2.4.1",
 	name: "Partially Updated",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h2>v0.2.0: Partially Updated</h2><br>
+	  	Updated the Soul Tree again<br><br>
+	<h3>v0.2.1</h3><br>
+		Added the start of Copper Coins<br><br>
+	<h3>v0.2.2</h3><br>
+		Expanded the Currency tree<br><br>
+	<h3>v0.2.3</h3><br>
+		Added the GPTree Home Layer<br>
+		Added the first three Seeds and first few knowledge upgrades to the Home Layer<br>
+		Added Silver Points<br><br>
 	<h3>v0.2.4</h3><br>
 		Added Banks in the Currency Tree<br>
 		Fixed the Copper-Silver Inflation issue<br>
 		Added a new Silver buyable<br>
 		Added a new Recipe to the Home Layer<br><br>
-	<h3>v0.2.3</h3><br>
-		Added the GPTree Home Layer<br>
-		Added the first three Seeds and first few knowledge upgrades to the Home Layer<br>
-		Added Silver Points<br><br>
-	<h3>v0.2.2</h3><br>
-		Expanded the Currency tree<br><br>
-	<h3>v0.2.1</h3><br>
-		Added the start of Copper Coins<br><br>
-	<h3>v0.2.0 - Partially Updated</h3><br>
-	  Updated the Soul Tree again<br><br>
+	<h4>v0.2.4.1</h4><br>
+		Allowed gaining resets<br>
+		Added a couple things in reset layers<br>
+		Reformatted Changelog<br>
+		Fixed bug where no updates were released<br><br>
+	<h2>v0.1.0: Advent of Soul</h2><br>
+		Created basic structure to allow for further development<br>
+		Added the Soul Tree<br>
+		Greatly expanded the Soul Tree<br>
+		Added Credits<br>
 	<h3>v0.1.1</h3><br>
-	  Updated Soul Tree with a minor update<br><br>
-	<h3>v0.1.0: Advent of Soul</h3><br>
-	  Created basic structure to allow for further development<br>
-	  Added the Soul Tree<br>
-	  Greatly expanded the Soul Tree<br>
-	  Added Credits<br>
+		Updated Soul Tree with a minor update<br><br>
 	`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`

@@ -81,7 +81,7 @@ addLayer("ygg", {
                     return `Credit for the original versions of the subtrees goes to the following:<br>
                     SuperJakeyLKR for <a href = \"https://github.com/superjakeyLKR/The-Soul-Tree\">The Soul Tree</a><br>
                     ChatGPT for the base of the GPTree, expanded by myself<br><br>
-                    My own personal trees: The Currency Tree`
+                    My own personal trees: The Omnitree, The Currency Tree`
                 }]
             ]
         },
